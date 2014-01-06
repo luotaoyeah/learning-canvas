@@ -22,12 +22,27 @@ window.addEventListener(
      * @param {CanvasRenderingContext2D} ctx
      */
     function drawScreen(ctx) {
+      /* 设置背景颜色 */
       ctx.fillStyle = "#ffffaa";
-      ctx.fillRect(0, 0, 500, 300);
+      ctx.fillRect(0, 0, 1000, 800);
+
+      /* 添加文本 */
       ctx.fillStyle = "#000000";
       ctx.font = "20px '宋体'";
       ctx.textBaseline = "top";
-      ctx.fillText("hello world", 195, 80);
+      ctx.textAlign = "center";
+      ctx.fillText("hello world", 500, 100);
+
+      /* 添加图片 */
+      var image = new Image(418, 435);
+      image.onload = function() {
+        ctx.drawImage(image, 500 - 418 / 2, 400 - 435 / 2);
+      };
+      image.src = "./01-06-01.jpg";
+
+      /* 添加边框 */
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(0, 0, 1000, 800);
     }
   },
   false
