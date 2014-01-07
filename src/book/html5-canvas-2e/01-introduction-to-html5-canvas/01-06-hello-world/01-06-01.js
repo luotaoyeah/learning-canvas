@@ -6,14 +6,14 @@
 window.addEventListener(
   "load",
   function() {
-    var canvasEl = document.getElementById("canvas01");
-    if (canvasEl && canvasEl.getContext) {
+    var canvas = document.getElementById("canvas01");
+    if (canvas && canvas.getContext) {
       /*
        * 通过 HTMLCanvasElement.getContext() 方法，
        * 获取 canvas 元素的 context 对象，
        * 对 canvas 元素的所有操作，都是通过 context 对象进行的
        */
-      var context = canvasEl.getContext("2d");
+      var context = canvas.getContext("2d");
       drawScreen(context);
     }
 

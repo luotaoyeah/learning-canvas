@@ -1,9 +1,9 @@
 window.addEventListener(
   "load",
   function() {
-    var canvasEl = document.getElementById("canvas01");
-    if (canvasEl && canvasEl.getContext) {
-      drawScreen(canvasEl.getContext("2d"));
+    var canvas = document.getElementById("canvas01");
+    if (canvas && canvas.getContext) {
+      drawScreen(canvas.getContext("2d"));
     }
 
     /**
@@ -20,9 +20,14 @@ window.addEventListener(
       /*
        * 因为 canvas 是属于 immediate mode 而不是 retained mode
        * 即，当某个部分发生变化时，整个画布都需要重绘，
-       * 因此，canvas 中有一个 current state 的概念，
-       * 当前状态指的是，当前 context 对象上面的一系列属性设置，
-       * 如：strokeStyle，fillStyle，lineWidth，等等
+       * 因此，canvas 中有一个 current state 的概念
+       *
+       * 当前状态：
+       *     指的就是是当前 context 对象上面的一系列属性设置，
+       *     这些属性状态对整个画布生效，
+       *     在每次绘制操作之前，都需要先对这些状态属性进行设置
+       * 当前状态包括如下属性：
+       *     strokeStyle，fillStyle，lineWidth，等等
        */
 
       ctx.fillStyle = "#ffffaa";
