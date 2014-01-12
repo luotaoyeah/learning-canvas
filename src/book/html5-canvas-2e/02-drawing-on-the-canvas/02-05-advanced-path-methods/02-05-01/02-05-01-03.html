@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-05-02</title>
+    <title>02-05-01</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -12,9 +12,8 @@
       /*
        * 2.5. Advanced Path Methods
        *     2.5.1. Arcs
-       *         context.arc()
+       *         context.arcTo()
        */
-
       window.addEventListener(
         "load",
         function() {
@@ -44,21 +43,30 @@
            */
           function drawScreen(ctx, width, height) {
             /*
-             * 通过指定不同的角度，可以绘制不同形状的弧线
+             * context.arcTo() 的作用是：
+             *     在两条线的夹角之间画一段圆弧，圆弧跟两条线都相切
+             * 要确定这两条线，需要三个点，arcTo() 方法的参数，
+             * 就是用来指定第二个和第三个点的坐标，以及圆弧的半径，
+             * 而第一个点存在于当前的路径上，因此调用 arcTo() 方法时，
+             * 必须已经存在一部分路径了（至少已经存在一个点了）
              */
-            ctx.strokeStyle = "#ff0000";
-            ctx.lineWidth = 5;
+
+            /*
+             * 下面这段代码，将两条线描绘出来，
+             * 方便查看最终效果
+             */
+            ctx.strokeStyle = "#dddddd";
             ctx.beginPath();
-            ctx.arc(
-              100,
-              100,
-              30,
-              (Math.PI / 180) * -45,
-              (Math.PI / 180) * 45,
-              false
-            );
+            ctx.moveTo(100, 200);
+            ctx.lineTo(350, 350);
+            ctx.lineTo(100, 100);
             ctx.stroke();
-            ctx.closePath();
+
+            ctx.strokeStyle = "#ff0000";
+            ctx.beginPath();
+            ctx.moveTo(100, 200);
+            ctx.arcTo(350, 350, 100, 100, 20);
+            ctx.stroke();
           }
         },
         false
