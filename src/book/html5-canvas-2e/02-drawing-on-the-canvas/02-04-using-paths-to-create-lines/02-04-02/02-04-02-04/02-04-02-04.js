@@ -42,6 +42,7 @@ window.addEventListener(
 
       ctx.strokeStyle = "#ff0000";
       ctx.stroke();
+      ctx.closePath();
     }
   },
   false

@@ -43,6 +43,7 @@ window.addEventListener(
       ctx.lineTo(200, 200);
 
       ctx.stroke();
+      ctx.closePath();
     }
   },
   false

@@ -1,6 +1,7 @@
 /*
- * 2.4. Using Paths to Create Lines
- *     2.4.2.1. lineCap
+ * 2.5. Advanced Path Methods
+ *     2.5.1. Arcs
+ *         context.arc()
  */
 
 window.addEventListener(
@@ -32,31 +33,22 @@ window.addEventListener(
      */
     function drawScreen(ctx, width, height) {
       /*
-       * lineCap 属性，用于设置线条顶端的样式，
-       * 可选属性值：butt（默认），square，round
+       * 一个弧形（arc）是一个圆的一部分（或者整个圆），
+       * 方法签名为：arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
+       * 其中：
+       *     x                横坐标
+       *     y                纵坐标
+       *     radius           半径
+       *     startAngle       开始的角度
+       *     endAngle         结束的角度
+       *     anticlockwise    是否逆时针方向，否则为顺时针方向
+       * 注意：开始角度和结束角度，单位都是弧度（radian），而不是角度（degree）
+       * 换算公式为：radian = (Math.PI / 180) * degree
        */
-
+      ctx.beginPath();
       ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 10;
-
-      ctx.beginPath();
-      ctx.moveTo(10, 10);
-      ctx.lineTo(110, 10);
-      ctx.lineCap = "butt";
-      ctx.stroke();
-      ctx.closePath();
-
-      ctx.beginPath();
-      ctx.moveTo(10, 60);
-      ctx.lineTo(110, 60);
-      ctx.lineCap = "square";
-      ctx.stroke();
-      ctx.closePath();
-
-      ctx.beginPath();
-      ctx.moveTo(10, 110);
-      ctx.lineTo(110, 110);
-      ctx.lineCap = "round";
+      ctx.lineWidth = 5;
+      ctx.arc(100, 100, 20, (Math.PI / 180) * 0, (Math.PI / 180) * 360, true);
       ctx.stroke();
       ctx.closePath();
     }

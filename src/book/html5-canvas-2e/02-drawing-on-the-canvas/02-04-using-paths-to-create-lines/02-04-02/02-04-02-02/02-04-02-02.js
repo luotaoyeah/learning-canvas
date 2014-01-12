@@ -46,6 +46,7 @@ window.addEventListener(
 
       ctx.lineJoin = "round";
       ctx.stroke();
+      ctx.closePath();
     }
   },
   false
