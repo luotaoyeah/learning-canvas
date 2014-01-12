@@ -1,6 +1,6 @@
 /*
  * 2.4. Using Paths to Create Lines
- *     2.4.2. lineCap
+ *     2.4.2.1. lineCap
  */
 
 window.addEventListener(

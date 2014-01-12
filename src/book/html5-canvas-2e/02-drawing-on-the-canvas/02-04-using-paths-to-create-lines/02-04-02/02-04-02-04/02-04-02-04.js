@@ -1,6 +1,6 @@
 /*
  * 2.4. Using Paths to Create Lines
- *     2.4.4. strokeStyle
+ *     2.4.2.4. strokeStyle
  */
 
 window.addEventListener(

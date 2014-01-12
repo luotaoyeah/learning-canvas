@@ -1,6 +1,6 @@
 /*
  * 2.4. Using Paths to Create Lines
- *     2.4.2. lineJoin
+ *     2.4.2.2. lineJoin
  */
 
 window.addEventListener(
