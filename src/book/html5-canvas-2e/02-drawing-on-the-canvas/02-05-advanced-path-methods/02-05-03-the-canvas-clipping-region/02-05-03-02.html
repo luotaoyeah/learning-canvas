@@ -45,74 +45,35 @@
            */
           function drawScreen(ctx, width, height) {
             /*
-             * context.clip() 方法，用于裁剪画布的可视区域，
-             * 在裁剪之前，需要先设置想要裁剪的范围，
-             * 通常是使用 rect() 方法，将可视区域裁剪到指定的矩形范围之内，
-             * 经过裁剪，之后所有的绘制，只有在这个可视区域内部的部分才可见，
-             * 其余部分不会显示
+             * 除了可以使用 rect() 方法，将裁剪区域设置为一个矩形之外，
+             * 还可以使用其他方法，比如 arc() 方法，将裁剪区域设置为其他的形状
              */
-            /* 边框 */
+
+            ctx.strokeStyle = "#000000";
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(10, 10, 50, 50);
-            ctx.clip();
-
             ctx.beginPath();
             ctx.strokeStyle = "#999999";
-            ctx.rect(10, 10, 50, 50);
+            ctx.arc(110, 110, 100, 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
 
-            /* 圆 */
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(110, 110, 100, 0, (Math.PI / 180) * 360, false);
+            ctx.clip();
+
             ctx.beginPath();
             ctx.strokeStyle = "#ff0000";
-            ctx.arc(
-              100,
-              100,
-              100,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
-            ctx.stroke();
-
-            ctx.restore();
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(100, 100, 150, 150);
-            ctx.clip();
-
-            ctx.beginPath();
-            ctx.strokeStyle = "#999999";
-            ctx.rect(100, 100, 150, 150);
-            ctx.stroke();
-
-            /* 圆 */
-            ctx.beginPath();
-            ctx.strokeStyle = "#ff00ff";
-            ctx.arc(
-              100,
-              100,
-              100,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
+            ctx.lineWidth = 5;
+            ctx.rect(100, 100, 200, 200);
             ctx.stroke();
 
             ctx.restore();
             ctx.beginPath();
-            ctx.strokeStyle = "#0000ff";
-            ctx.arc(
-              100,
-              100,
-              90,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
+            ctx.strokeStyle = "rgba(255, 0, 0, 0.1)";
+            ctx.lineWidth = 5;
+            ctx.rect(100, 100, 200, 200);
             ctx.stroke();
           }
         },
