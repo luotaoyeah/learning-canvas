@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02-05-02</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px;height: 600px;">
+        your browser does not support canvas
+      </canvas>
+    </div>
+    <script>
+      /*
+       * 2.5. Advanced Path Methods
+       *     2.5.3. The Canvas Clipping Region
+       *         context.clip()
+       */
+      window.addEventListener(
+        "load",
+        function() {
+          var canvas = document.getElementById("canvas01");
+          if (canvas && canvas.getContext) {
+            var ctx = (function(canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext("2d");
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+            console.log("--------------------------------------------------");
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            /*
+             * context.clip() 方法，用于裁剪画布的可视区域，
+             * 在裁剪之前，需要先设置想要裁剪的范围，
+             * 通常是使用 rect() 方法，将可视区域裁剪到指定的矩形范围之内，
+             * 经过裁剪，之后所有的绘制，只有在这个可视区域内部的部分才可见，
+             * 其余部分不会显示
+             */
+            /* 边框 */
+            ctx.rect(0, 0, width, height);
+            ctx.stroke();
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(10, 10, 50, 50);
+            ctx.clip();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#999999";
+            ctx.rect(10, 10, 50, 50);
+            ctx.stroke();
+
+            /* 圆 */
+            ctx.beginPath();
+            ctx.strokeStyle = "#ff0000";
+            ctx.arc(
+              100,
+              100,
+              100,
+              (Math.PI / 180) * 0,
+              (Math.PI / 180) * 360,
+              false
+            );
+            ctx.stroke();
+
+            ctx.restore();
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(100, 100, 150, 150);
+            ctx.clip();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#999999";
+            ctx.rect(100, 100, 150, 150);
+            ctx.stroke();
+
+            /* 圆 */
+            ctx.beginPath();
+            ctx.strokeStyle = "#ff00ff";
+            ctx.arc(
+              100,
+              100,
+              100,
+              (Math.PI / 180) * 0,
+              (Math.PI / 180) * 360,
+              false
+            );
+            ctx.stroke();
+
+            ctx.restore();
+            ctx.beginPath();
+            ctx.strokeStyle = "#0000ff";
+            ctx.arc(
+              100,
+              100,
+              90,
+              (Math.PI / 180) * 0,
+              (Math.PI / 180) * 360,
+              false
+            );
+            ctx.stroke();
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
