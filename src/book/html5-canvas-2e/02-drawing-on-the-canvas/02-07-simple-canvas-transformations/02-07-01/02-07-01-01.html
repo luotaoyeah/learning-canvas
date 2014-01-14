@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-06-01</title>
+    <title>02-07-01</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -12,8 +12,9 @@
     </div>
     <script>
       /*
-       * 2.6. Compositing on the Canvas
-       *     context.globalCompositeOperation
+       * 2.7. Simple Canvas Transformations
+       *     2.7.1. Rotation and Translation Transformations
+       *         context.rotate()
        */
       window.addEventListener(
         "load",
@@ -44,24 +45,18 @@
            */
           function drawScreen(ctx, width, height) {
             ctx.strokeStyle = "#000000";
+            ctx.beginPath();
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
             /*
-             * context.globalCompositeOperation 属性，
-             * 用于设置：新绘制的图形跟已绘制的图形，在重叠时如何渲染？
-             * 默认值为 source-over，即新绘制的图形会覆盖已绘制的图形
+             * canvas 中的变换主要有两类：旋转（rotate），缩放（scale）
              */
 
-            ctx.beginPath();
-            ctx.fillStyle = "#0000ff";
-            ctx.fillRect(10, 10, 100, 100);
-
-            ctx.globalCompositeOperation = "screen";
-
-            ctx.beginPath();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.rotate((Math.PI / 180) * 45);
             ctx.fillStyle = "#ff0000";
-            ctx.fillRect(60, 60, 100, 100);
+            ctx.fillRect(100, 100, 50, 50);
           }
         },
         false
