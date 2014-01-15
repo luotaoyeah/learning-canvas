@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02-07-01</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px;height: 600px;">
+        your browser does not support canvas
+      </canvas>
+    </div>
+    <script>
+      /*
+       * 2.7. Simple Canvas Transformations
+       *     2.7.1. Rotation and Translation Transformations
+       *         context.translate()
+       */
+      window.addEventListener(
+        "load",
+        function() {
+          var canvas = document.getElementById("canvas01");
+          if (canvas && canvas.getContext) {
+            var ctx = (function(canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext("2d");
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+            console.log("--------------------------------------------------");
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.strokeStyle = "#000000";
+            ctx.beginPath();
+            ctx.rect(0, 0, width, height);
+            ctx.stroke();
+
+            /*
+             * context.translate() 方法，用来移动画布原点（origin point）
+             *
+             * 使用 context.rotate() 方法，将图形旋转指定的角度，
+             * 但是，默认是相对画布的原点（0, 0）进行旋转的
+             * 如果想要相对于某个图形的中心点进行旋转，
+             * 需要先使用 context.translate() 方法，
+             * 将画布的原点移动到该图形的中心，然后再进行旋转
+             */
+
+            ctx.fillStyle = "#0000ff";
+            ctx.fillRect(200, 200, 50, 50);
+
+            ctx.save();
+            ctx.translate(100, 100);
+            ctx.rotate((Math.PI / 180) * 45);
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(-25, -25, 50, 50);
+
+            ctx.restore();
+            ctx.fillRect(300, 300, 50, 50);
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
