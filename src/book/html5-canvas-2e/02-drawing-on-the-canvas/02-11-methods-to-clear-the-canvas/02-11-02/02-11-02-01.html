@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02-11-02</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+    </div>
+    <script>
+      /*
+       * 2.11. Methods to Clear the Canvas
+       *     2.11.2. Resetting the Canvas Width and Height
+       */
+      window.addEventListener(
+        "load",
+        function() {
+          var canvas = document.getElementById("canvas01");
+          if (canvas && canvas.getContext) {
+            var ctx = (function(canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext("2d");
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+            console.log("--------------------------------------------------");
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.strokeStyle = "#000000";
+            ctx.beginPath();
+            ctx.rect(0, 0, width, height);
+            ctx.stroke();
+
+            /*
+             * 当画布的 width 属性或者 height 属性被重新赋值时，
+             * 整个画布会被清空
+             */
+
+            canvas.width = width;
+            canvas.height = height;
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
