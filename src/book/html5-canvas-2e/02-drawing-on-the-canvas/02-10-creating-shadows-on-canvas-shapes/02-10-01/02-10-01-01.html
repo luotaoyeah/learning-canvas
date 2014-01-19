@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02-09-01</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+    </div>
+    <script>
+      /*
+       * 2.10. Creating Shadows on Canvas Shapes
+       *     context.shadowOffsetX
+       *     context.shadowOffsetY
+       *     context.shadowBlur
+       *     context.shadowColor
+       */
+      window.addEventListener(
+        "load",
+        function() {
+          var canvas = document.getElementById("canvas01");
+          if (canvas && canvas.getContext) {
+            var ctx = (function(canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext("2d");
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+            console.log("--------------------------------------------------");
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.strokeStyle = "#000000";
+            ctx.beginPath();
+            ctx.rect(0, 0, width, height);
+            ctx.stroke();
+
+            /*
+             * 跟阴影相关的属性有四个：
+             *     context.shadowOffsetX  水平偏移
+             *     context.shadowOffsetY  垂直偏移
+             *     context.shadowBlur     模糊距离
+             *     context.shadowColor    颜色
+             *  context.shadowOffsetX 如果为负数，则表示向左偏移，
+             *  context.shadowOffsetY 如果为负数，则表示向上偏移
+             */
+
+            ctx.shadowColor = "#000000";
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(100, 100, 100, 100);
+
+            ctx.shadowColor = "#000000";
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = -5;
+            ctx.shadowOffsetY = -5;
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(300, 100, 100, 100);
+
+            ctx.shadowColor = "#000000";
+            ctx.shadowBlur = 30;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.fillStyle = "#ff0000";
+            ctx.beginPath();
+            ctx.arc(550, 150, 50, 0, (Math.PI / 180) * 360, false);
+            ctx.fill();
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
