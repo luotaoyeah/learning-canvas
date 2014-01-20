@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-12-01</title>
+    <title>03-01-01</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -10,18 +10,14 @@
     </div>
     <script>
       /*
-       * 2.12. Checking to See Whether a Point Is in the Current Path
-       *     context.isPointInPath()
+       * 3.1. Canvas Text and CSS
        */
       window.addEventListener(
         "load",
         function() {
           var canvas = document.getElementById("canvas01");
           if (canvas && canvas.getContext) {
-            /*
-             * 为了解决坐标偏移问题，将像素比设为1
-             */
-            var ratio = 1;
+            var ratio = window.devicePixelRatio;
             var ctx = (function(canvas) {
               var dpr = ratio || 1;
               var rect = canvas.getBoundingClientRect();
@@ -50,32 +46,16 @@
             ctx.strokeRect(0, 0, width, height);
 
             /*
-             * context.isPointInPath() 方法，
-             * 判断某个点是否在某个路径（path）的范围之内
+             * canvas 中的文本样式跟 CSS 没有必然的关系，
+             * 虽然有些属性跟 CSS 中的某些属性很相似，
+             * 但是 canvas 中的文本，不能使用 CSS 来设置样式
              */
 
-            var path2D = new Path2D();
-            path2D.arc(200, 200, 100, 0, (Math.PI / 180) * 360, false);
-
-            ctx.fillStyle = "#ff0000";
-            ctx.fill(path2D);
-
-            window.addEventListener("mousemove", function(e) {
-              if (
-                ctx.isPointInPath(
-                  path2D,
-                  e.clientX - canvas.offsetLeft,
-                  e.clientY - canvas.offsetTop
-                )
-              ) {
-                ctx.fillStyle = "#00ff00";
-              } else {
-                ctx.fillStyle = "#ff0000";
-              }
-
-              ctx.clearRect(1, 1, width - 2, height - 2);
-              ctx.fill(path2D);
-            });
+            ctx.strokeStyle = "#ff0000";
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.font = "200px '宋体'";
+            ctx.strokeText("HTML5", width / 2, height / 2);
           }
         },
         false
