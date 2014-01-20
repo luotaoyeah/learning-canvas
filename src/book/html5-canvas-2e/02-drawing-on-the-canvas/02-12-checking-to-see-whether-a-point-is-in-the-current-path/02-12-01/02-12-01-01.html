@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-07-03</title>
+    <title>02-11-01</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -10,16 +10,20 @@
     </div>
     <script>
       /*
-       * 2.7. Simple Canvas Transformations
-       *     2.7.3. Combining Scale and Rotation Transformations
+       * 2.12. Checking to See Whether a Point Is in the Current Path
+       *     context.isPointInPath()
        */
       window.addEventListener(
         "load",
         function() {
           var canvas = document.getElementById("canvas01");
           if (canvas && canvas.getContext) {
+            /*
+             * 为了解决坐标偏移问题，将像素比设为1
+             */
+            var ratio = 1;
             var ctx = (function(canvas) {
-              var dpr = window.devicePixelRatio || 1;
+              var dpr = ratio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
@@ -27,8 +31,8 @@
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+            var width = canvas.width / (ratio || 1);
+            var height = canvas.height / (ratio || 1);
             console.log("--------------------------------------------------");
 
             drawScreen(ctx, width, height);
@@ -43,25 +47,35 @@
           function drawScreen(ctx, width, height) {
             ctx.strokeStyle = "#000000";
             ctx.beginPath();
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
+            ctx.strokeRect(0, 0, width, height);
 
             /*
-             * 将 scale() 和 rotate() 结合使用
+             * context.isPointInPath() 方法，
+             * 判断某个点是否在某个路径（path）的范围之内
              */
 
-            var r = (Math.PI / 180) * 45;
-            var w = 200 * Math.cos(r);
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.translate(200, 200);
-            ctx.rotate((Math.PI / 180) * 45);
-            ctx.scale(2, 2);
-            ctx.fillStyle = "#ff0000";
-            ctx.fillRect(-w / 2, -w / 2, w, w);
+            var path2D = new Path2D();
+            path2D.arc(200, 200, 100, 0, (Math.PI / 180) * 360, false);
 
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.fillStyle = "#0000ff";
-            ctx.fillRect(400, 400, w, w);
+            ctx.fillStyle = "#ff0000";
+            ctx.fill(path2D);
+
+            window.addEventListener("mousemove", function(e) {
+              if (
+                ctx.isPointInPath(
+                  path2D,
+                  e.clientX - canvas.offsetLeft,
+                  e.clientY - canvas.offsetTop
+                )
+              ) {
+                ctx.fillStyle = "#00ff00";
+              } else {
+                ctx.fillStyle = "#ff0000";
+              }
+
+              ctx.clearRect(1, 1, width - 2, height - 2);
+              ctx.fill(path2D);
+            });
           }
         },
         false

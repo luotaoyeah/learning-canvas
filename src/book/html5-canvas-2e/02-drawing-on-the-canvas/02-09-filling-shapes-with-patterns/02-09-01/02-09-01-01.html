@@ -46,10 +46,10 @@
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
-            const image = new Image();
+            var image = new Image();
             image.src = "./02-09-01-01.png";
             image.onload = function() {
-              const pattern = ctx.createPattern(image, "repeat");
+              var pattern = ctx.createPattern(image, "repeat");
               ctx.fillStyle = pattern;
               ctx.fillRect(0, 0, 320, 320);
             };

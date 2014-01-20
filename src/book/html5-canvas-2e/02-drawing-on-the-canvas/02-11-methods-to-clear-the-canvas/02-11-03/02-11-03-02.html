@@ -32,9 +32,12 @@
             var height = canvas.height / (window.devicePixelRatio || 1);
             console.log("--------------------------------------------------");
 
+            /*
+             * 通过不断的清空+重绘，实现动画效果
+             */
             var y = 11;
             (function() {
-              setInterval(() => {
+              setInterval(function() {
                 drawScreen(ctx, width, height);
               }, 20);
             })();
