@@ -2,24 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>03-02-04</title>
+    <title>03-02-05-01</title>
   </head>
   <body>
     <div style="text-align: center">
       <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
       <br />
       <form>
-        <label for="msg">
+        <label for="messageInput">
           MESSAGE：
           <input
             type="text"
-            id="msg"
+            id="messageInput"
             value="hello text"
             style="border-radius: 3px;padding: 0 3px;width:400px;"
           />
         </label>
+        <br />
+        <label for="fillOrStrokeSelect">
+          FILL OR STROKE：
+          <select id="fillOrStrokeSelect">
+            <option value="fill">FILL</option>
+            <option value="stroke">STROKE</option>
+            <option value="both">BOTH</option>
+          </select>
+        </label>
       </form>
     </div>
-    <script src="./03-02-04-01.js"></script>
+    <script src="./03-02-05-01.js"></script>
   </body>
 </html>
