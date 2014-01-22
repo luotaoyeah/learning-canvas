@@ -1,10 +1,14 @@
 {
-  "name": "learning-canvas",
-  "author": "luotao",
+  "name": "@luotao/learning-canvas",
   "version": "0.0.1",
   "devDependencies": {
-    "husky": "^2.1.0",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.17.0"
+    "prettier": "^2.4.0"
+  },
+  "prettier": {
+    "printWidth": 160,
+    "singleQuote": true,
+    "semi": true,
+    "endOfLine": "auto",
+    "trailingComma": "all"
   }
 }

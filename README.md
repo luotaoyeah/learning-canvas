@@ -1,3 +1,1 @@
-# learning-canvas
-
-Learning Canvas
+# @luotao/learning-canvas
