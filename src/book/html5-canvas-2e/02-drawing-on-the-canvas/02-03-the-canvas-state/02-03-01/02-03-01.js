@@ -3,22 +3,22 @@
  */
 
 window.addEventListener(
-  "load",
+  'load',
   function() {
-    var canvas = document.getElementById("canvas01");
+    var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
       var ctx = (function(canvas) {
         var dpr = window.devicePixelRatio || 1;
         var rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext('2d');
         ctx.scale(dpr, dpr);
         return ctx;
       })(canvas);
       var width = canvas.width / (window.devicePixelRatio || 1);
       var height = canvas.height / (window.devicePixelRatio || 1);
-      console.log("--------------------------------------------------");
+      console.log('--------------------------------------------------');
 
       /*
        * canvas states 指的是一系列的 state 组成的一个 stack
@@ -66,16 +66,16 @@ window.addEventListener(
       ctx.save();
 
       ctx.font = "12px '宋体'";
-      ctx.textBaseline = "top";
-      ctx.textAlign = "left";
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'left';
       ctx.save();
 
-      ctx.fillStyle = "#ff0000";
-      ctx.fillText("A", 0, 0);
+      ctx.fillStyle = '#ff0000';
+      ctx.fillText('A', 0, 0);
 
       ctx.restore();
-      ctx.fillText("B", 0, 30);
+      ctx.fillText('B', 0, 30);
     }
   },
-  false
+  false,
 );

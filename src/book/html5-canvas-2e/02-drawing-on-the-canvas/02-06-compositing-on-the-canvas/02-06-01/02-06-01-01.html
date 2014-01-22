@@ -16,22 +16,22 @@
        *     context.golbalAlpha
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -43,7 +43,7 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
@@ -53,26 +53,26 @@
              */
 
             ctx.font = "20px '宋体'";
-            ctx.textBaseline = "top";
-            ctx.textAlign = "left";
+            ctx.textBaseline = 'top';
+            ctx.textAlign = 'left';
 
             ctx.globalAlpha = 1.0;
-            ctx.fillText("A", 10, 10);
+            ctx.fillText('A', 10, 10);
 
             ctx.globalAlpha = 0.8;
-            ctx.fillText("B", 50, 50);
+            ctx.fillText('B', 50, 50);
 
             ctx.globalAlpha = 0.6;
-            ctx.fillText("C", 100, 100);
+            ctx.fillText('C', 100, 100);
 
             ctx.globalAlpha = 0.4;
-            ctx.fillText("D", 150, 150);
+            ctx.fillText('D', 150, 150);
 
             ctx.globalAlpha = 0.2;
-            ctx.fillText("E", 200, 200);
+            ctx.fillText('E', 200, 200);
           }
         },
-        false
+        false,
       );
     </script>
   </body>

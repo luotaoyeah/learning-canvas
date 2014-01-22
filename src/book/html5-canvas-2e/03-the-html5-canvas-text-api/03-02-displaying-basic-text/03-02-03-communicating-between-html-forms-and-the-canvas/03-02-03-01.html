@@ -11,12 +11,7 @@
       <form>
         <label for="msg">
           MESSAGE：
-          <input
-            type="text"
-            id="msg"
-            value="hello text"
-            style="border-radius: 3px;padding: 0 3px;width:400px;"
-          />
+          <input type="text" id="msg" value="hello text" style="border-radius: 3px;padding: 0 3px;width:400px;" />
         </label>
       </form>
     </div>
@@ -26,9 +21,9 @@
        *     3.2.3. Communicating Between HTML Forms and the Canvas
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ratio = window.devicePixelRatio;
             var ctx = (function(canvas) {
@@ -36,27 +31,27 @@
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (ratio || 1);
             var height = canvas.height / (ratio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
-            var message = "hello world";
+            var message = 'hello world';
 
-            var inputEl = document.getElementById("msg");
+            var inputEl = document.getElementById('msg');
             if (inputEl) {
               message = inputEl.value;
 
               inputEl.addEventListener(
-                "keyup",
+                'keyup',
                 function(e) {
                   message = e.target.value;
                   drawScreen(ctx, width, height);
                 },
-                false
+                false,
               );
             }
 
@@ -72,18 +67,18 @@
           function drawScreen(ctx, width, height) {
             ctx.clearRect(0, 0, width, height);
 
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.strokeRect(0, 0, width, height);
 
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = '#ff0000';
             ctx.font = "12px '宋体'";
-            ctx.textBaseline = "top";
-            ctx.textAlign = "left";
+            ctx.textBaseline = 'top';
+            ctx.textAlign = 'left';
             ctx.fillText(message.toUpperCase(), 10, 10);
           }
         },
-        false
+        false,
       );
     </script>
   </body>

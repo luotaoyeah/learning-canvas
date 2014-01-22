@@ -17,22 +17,22 @@
        *         context.clip()
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -49,12 +49,12 @@
              * 还可以使用其他方法，比如 arc() 方法，将裁剪区域设置为其他的形状
              */
 
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.strokeStyle = "#999999";
+            ctx.strokeStyle = '#999999';
             ctx.arc(110, 110, 100, 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
 
@@ -64,20 +64,20 @@
             ctx.clip();
 
             ctx.beginPath();
-            ctx.strokeStyle = "#ff0000";
+            ctx.strokeStyle = '#ff0000';
             ctx.lineWidth = 5;
             ctx.rect(100, 100, 200, 200);
             ctx.stroke();
 
             ctx.restore();
             ctx.beginPath();
-            ctx.strokeStyle = "rgba(255, 0, 0, 0.1)";
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
             ctx.lineWidth = 5;
             ctx.rect(100, 100, 200, 200);
             ctx.stroke();
           }
         },
-        false
+        false,
       );
     </script>
   </body>

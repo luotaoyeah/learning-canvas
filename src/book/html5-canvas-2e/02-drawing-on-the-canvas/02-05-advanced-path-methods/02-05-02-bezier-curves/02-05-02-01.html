@@ -17,22 +17,22 @@
        *         context.quadraticCurveTo()
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -52,7 +52,7 @@
 
             /*  */
             ctx.lineWidth = 1;
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.moveTo(0, 0);
             ctx.lineTo(100, 25);
@@ -60,7 +60,7 @@
             ctx.stroke();
 
             ctx.lineWidth = 5;
-            ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
             ctx.beginPath();
             ctx.moveTo(0, 0);
             ctx.quadraticCurveTo(100, 25, 0, 50);
@@ -68,7 +68,7 @@
 
             /*  */
             ctx.lineWidth = 1;
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.moveTo(100, 100);
             ctx.lineTo(150, 150);
@@ -76,14 +76,14 @@
             ctx.stroke();
 
             ctx.lineWidth = 5;
-            ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
             ctx.beginPath();
             ctx.moveTo(100, 100);
             ctx.quadraticCurveTo(150, 150, 200, 100);
             ctx.stroke();
           }
         },
-        false
+        false,
       );
     </script>
   </body>

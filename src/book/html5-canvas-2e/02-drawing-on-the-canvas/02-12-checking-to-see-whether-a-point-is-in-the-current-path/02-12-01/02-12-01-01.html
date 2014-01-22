@@ -14,9 +14,9 @@
        *     context.isPointInPath()
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             /*
              * 为了解决坐标偏移问题，将像素比设为1
@@ -27,13 +27,13 @@
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (ratio || 1);
             var height = canvas.height / (ratio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -45,7 +45,7 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.strokeRect(0, 0, width, height);
 
@@ -57,20 +57,14 @@
             var path2D = new Path2D();
             path2D.arc(200, 200, 100, 0, (Math.PI / 180) * 360, false);
 
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = '#ff0000';
             ctx.fill(path2D);
 
-            window.addEventListener("mousemove", function(e) {
-              if (
-                ctx.isPointInPath(
-                  path2D,
-                  e.clientX - canvas.offsetLeft,
-                  e.clientY - canvas.offsetTop
-                )
-              ) {
-                ctx.fillStyle = "#00ff00";
+            window.addEventListener('mousemove', function(e) {
+              if (ctx.isPointInPath(path2D, e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)) {
+                ctx.fillStyle = '#00ff00';
               } else {
-                ctx.fillStyle = "#ff0000";
+                ctx.fillStyle = '#ff0000';
               }
 
               ctx.clearRect(1, 1, width - 2, height - 2);
@@ -78,7 +72,7 @@
             });
           }
         },
-        false
+        false,
       );
     </script>
   </body>

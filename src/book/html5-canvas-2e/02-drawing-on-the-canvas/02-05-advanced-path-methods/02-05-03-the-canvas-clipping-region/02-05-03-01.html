@@ -17,22 +17,22 @@
        *         context.clip()
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -61,21 +61,14 @@
             ctx.clip();
 
             ctx.beginPath();
-            ctx.strokeStyle = "#999999";
+            ctx.strokeStyle = '#999999';
             ctx.rect(10, 10, 50, 50);
             ctx.stroke();
 
             /* 圆 */
             ctx.beginPath();
-            ctx.strokeStyle = "#ff0000";
-            ctx.arc(
-              100,
-              100,
-              100,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
+            ctx.strokeStyle = '#ff0000';
+            ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
 
             ctx.restore();
@@ -85,38 +78,24 @@
             ctx.clip();
 
             ctx.beginPath();
-            ctx.strokeStyle = "#999999";
+            ctx.strokeStyle = '#999999';
             ctx.rect(100, 100, 150, 150);
             ctx.stroke();
 
             /* 圆 */
             ctx.beginPath();
-            ctx.strokeStyle = "#ff00ff";
-            ctx.arc(
-              100,
-              100,
-              100,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
+            ctx.strokeStyle = '#ff00ff';
+            ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
 
             ctx.restore();
             ctx.beginPath();
-            ctx.strokeStyle = "#0000ff";
-            ctx.arc(
-              100,
-              100,
-              90,
-              (Math.PI / 180) * 0,
-              (Math.PI / 180) * 360,
-              false
-            );
+            ctx.strokeStyle = '#0000ff';
+            ctx.arc(100, 100, 90, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
           }
         },
-        false
+        false,
       );
     </script>
   </body>

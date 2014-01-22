@@ -4,22 +4,22 @@
  */
 
 window.addEventListener(
-  "load",
+  'load',
   function() {
-    var canvas = document.getElementById("canvas01");
+    var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
       var ctx = (function(canvas) {
         var dpr = window.devicePixelRatio || 1;
         var rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext('2d');
         ctx.scale(dpr, dpr);
         return ctx;
       })(canvas);
       var width = canvas.width / (window.devicePixelRatio || 1);
       var height = canvas.height / (window.devicePixelRatio || 1);
-      console.log("--------------------------------------------------");
+      console.log('--------------------------------------------------');
 
       drawScreen(ctx, width, height);
     }
@@ -38,10 +38,10 @@ window.addEventListener(
        * 同理，线条的顶端，如果设置 lineCap 为 round 或者 square，
        * 那么线条的顶端也会有一部分位于画布外面；
        */
-      ctx.strokeStyle = "#000000";
+      ctx.strokeStyle = '#000000';
       ctx.lineWidth = 10;
-      ctx.lineJoin = "bevel";
-      ctx.lineCap = "round";
+      ctx.lineJoin = 'bevel';
+      ctx.lineCap = 'round';
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(25, 0);
@@ -56,8 +56,8 @@ window.addEventListener(
       ctx.stroke();
       ctx.closePath();
 
-      ctx.lineCap = "butt";
-      ctx.lineJoin = "round";
+      ctx.lineCap = 'butt';
+      ctx.lineJoin = 'round';
       ctx.beginPath();
       ctx.moveTo(10, 100);
       ctx.lineTo(35, 100);
@@ -66,5 +66,5 @@ window.addEventListener(
       ctx.closePath();
     }
   },
-  false
+  false,
 );

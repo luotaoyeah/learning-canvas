@@ -3,56 +3,29 @@
  */
 
 window.addEventListener(
-  "load",
+  'load',
   function() {
-    var canvas = document.getElementById("canvas01");
+    var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
       var ctx = (function(canvas) {
         var dpr = window.devicePixelRatio || 1;
         var rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext('2d');
         ctx.scale(dpr, dpr);
         return ctx;
       })(canvas);
       var width = canvas.width / (window.devicePixelRatio || 1);
       var height = canvas.height / (window.devicePixelRatio || 1);
 
-      var letters = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z"
-      ];
+      var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
       /* 总共猜了多少次 */
       var guesses = 0;
       /* 要猜测的字母 */
-      var letterToGuess = "";
+      var letterToGuess = '';
       /*  */
-      var higherOrLower = "";
+      var higherOrLower = '';
       /* 已经猜过的字母列表 */
       var lettersGuessed = [];
       /* 游戏是否结束 */
@@ -63,7 +36,7 @@ window.addEventListener(
         guesses = 0;
         lettersGuessed = [];
         gameOver = false;
-        window.addEventListener("keydown", handleWindowKeyDown, true);
+        window.addEventListener('keydown', handleWindowKeyDown, true);
       }
 
       /**
@@ -86,11 +59,11 @@ window.addEventListener(
           var toGuessIndex = letters.indexOf(letterToGuess);
 
           if (guessedIndex < 0) {
-            higherOrLower = "不是字母";
+            higherOrLower = '不是字母';
           } else if (guessedIndex > toGuessIndex) {
-            higherOrLower = "高";
+            higherOrLower = '高';
           } else {
-            higherOrLower = "低";
+            higherOrLower = '低';
           }
         }
 
@@ -109,50 +82,50 @@ window.addEventListener(
      */
     function drawScreen(ctx, width, height) {
       /* 背景 */
-      ctx.fillStyle = "#ffffaa";
+      ctx.fillStyle = '#ffffaa';
       ctx.fillRect(0, 0, width, height);
 
       /* 边框 */
-      ctx.strokeStyle = "#000000";
+      ctx.strokeStyle = '#000000';
       ctx.strokeRect(0, 0, width, height);
 
       /* 提示消息 */
-      ctx.fillStyle = "#ff0000";
+      ctx.fillStyle = '#ff0000';
       ctx.font = "20px '宋体'";
-      ctx.textBaseline = "top";
-      ctx.textAlign = "center";
-      ctx.fillText("猜字母游戏", width / 2, 10);
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'center';
+      ctx.fillText('猜字母游戏', width / 2, 10);
 
       /* 已经猜了多少次 */
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = '#000000';
       ctx.font = "14px '宋体'";
-      ctx.textBaseline = "bottom";
-      ctx.textAlign = "left";
-      ctx.fillText("猜的次数：" + guesses, 10, height - 30);
+      ctx.textBaseline = 'bottom';
+      ctx.textAlign = 'left';
+      ctx.fillText('猜的次数：' + guesses, 10, height - 30);
 
       /* 高了还是低了 */
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = '#000000';
       ctx.font = "14px '宋体'";
-      ctx.textBaseline = "bottom";
-      ctx.textAlign = "left";
-      ctx.fillText("猜的结果：" + higherOrLower, 10, height - 50);
+      ctx.textBaseline = 'bottom';
+      ctx.textAlign = 'left';
+      ctx.fillText('猜的结果：' + higherOrLower, 10, height - 50);
 
       /* 已经猜过的字母 */
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = '#000000';
       ctx.font = "14px '宋体'";
-      ctx.textBaseline = "bottom";
-      ctx.textAlign = "left";
-      ctx.fillText("已经猜过：" + lettersGuessed.join(", "), 10, height - 10);
+      ctx.textBaseline = 'bottom';
+      ctx.textAlign = 'left';
+      ctx.fillText('已经猜过：' + lettersGuessed.join(', '), 10, height - 10);
 
       /* 猜对啦 */
       if (gameOver) {
-        ctx.fillStyle = "#00ff00";
+        ctx.fillStyle = '#00ff00';
         ctx.font = "60px '宋体'";
-        ctx.textBaseline = "middle";
-        ctx.textAlign = "center";
-        ctx.fillText("猜对啦", width / 2, height / 2);
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillText('猜对啦', width / 2, height / 2);
       }
     }
   },
-  false
+  false,
 );

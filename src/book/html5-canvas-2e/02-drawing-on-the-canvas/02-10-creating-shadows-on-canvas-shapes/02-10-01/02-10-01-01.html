@@ -17,22 +17,22 @@
        *     context.shadowColor
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -44,7 +44,7 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.rect(0, 0, width, height);
             ctx.stroke();
@@ -59,31 +59,31 @@
              *  context.shadowOffsetY 如果为负数，则表示向上偏移
              */
 
-            ctx.shadowColor = "#000000";
+            ctx.shadowColor = '#000000';
             ctx.shadowBlur = 5;
             ctx.shadowOffsetX = 5;
             ctx.shadowOffsetY = 5;
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = '#ff0000';
             ctx.fillRect(100, 100, 100, 100);
 
-            ctx.shadowColor = "#000000";
+            ctx.shadowColor = '#000000';
             ctx.shadowBlur = 20;
             ctx.shadowOffsetX = -5;
             ctx.shadowOffsetY = -5;
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = '#ff0000';
             ctx.fillRect(300, 100, 100, 100);
 
-            ctx.shadowColor = "#000000";
+            ctx.shadowColor = '#000000';
             ctx.shadowBlur = 30;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = '#ff0000';
             ctx.beginPath();
             ctx.arc(550, 150, 50, 0, (Math.PI / 180) * 360, false);
             ctx.fill();
           }
         },
-        false
+        false,
       );
     </script>
   </body>

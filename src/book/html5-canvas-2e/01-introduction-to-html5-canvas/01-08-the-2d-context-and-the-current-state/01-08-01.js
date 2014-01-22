@@ -1,9 +1,9 @@
 window.addEventListener(
-  "load",
+  'load',
   function() {
-    var canvas = document.getElementById("canvas01");
+    var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
-      drawScreen(canvas.getContext("2d"));
+      drawScreen(canvas.getContext('2d'));
     }
 
     /**
@@ -30,13 +30,13 @@ window.addEventListener(
        *     strokeStyle，fillStyle，lineWidth，等等
        */
 
-      ctx.fillStyle = "#ffffaa";
+      ctx.fillStyle = '#ffffaa';
       ctx.fillRect(0, 0, 1000, 600);
 
-      ctx.strokeStyle = "#ff0000";
+      ctx.strokeStyle = '#ff0000';
       ctx.lineWidth = 2;
       ctx.strokeRect(1, 1, 998, 598);
     }
   },
-  false
+  false,
 );

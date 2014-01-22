@@ -15,22 +15,22 @@
        *         Applying a horizontal gradient to a stroke
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -42,7 +42,7 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.rect(0, 0, width, height);
             ctx.stroke();
@@ -53,9 +53,9 @@
              */
 
             var gr = ctx.createLinearGradient(0, 0, 100, 0);
-            gr.addColorStop(0, "#ff0000");
-            gr.addColorStop(0.5, "#00ff00");
-            gr.addColorStop(1, "#ff0000");
+            gr.addColorStop(0, '#ff0000');
+            gr.addColorStop(0.5, '#00ff00');
+            gr.addColorStop(1, '#ff0000');
 
             ctx.strokeStyle = gr;
             ctx.lineWidth = 5;
@@ -73,7 +73,7 @@
             ctx.stroke();
           }
         },
-        false
+        false,
       );
     </script>
   </body>

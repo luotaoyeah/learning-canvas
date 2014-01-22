@@ -15,22 +15,22 @@
        *         context.clearRect()
        */
       window.addEventListener(
-        "load",
+        'load',
         function() {
-          var canvas = document.getElementById("canvas01");
+          var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ctx = (function(canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext("2d");
+              var ctx = canvas.getContext('2d');
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log("--------------------------------------------------");
+            console.log('--------------------------------------------------');
 
             /*
              * 通过不断的清空+重绘，实现动画效果
@@ -52,12 +52,12 @@
           function drawScreen(ctx, width, height) {
             ctx.clearRect(0, 0, width, height);
 
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
             ctx.rect(0, 0, width, height);
             ctx.stroke();
 
-            ctx.strokeStyle = "#ff0000";
+            ctx.strokeStyle = '#ff0000';
             ctx.beginPath();
             ctx.arc(11, y, 10, 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
@@ -65,7 +65,7 @@
             y += 1;
           }
         },
-        false
+        false,
       );
     </script>
   </body>
