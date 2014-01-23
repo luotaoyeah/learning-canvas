@@ -15,7 +15,7 @@ window.addEventListener(
       ctx.strokeRect(1, 1, 1000 - 2, 600 - 2);
 
       ctx.fillStyle = '#000000';
-      ctx.font = "12px '宋体'";
+      ctx.font = "12px Monaco";
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('HELLO WORLD', 500, 300);

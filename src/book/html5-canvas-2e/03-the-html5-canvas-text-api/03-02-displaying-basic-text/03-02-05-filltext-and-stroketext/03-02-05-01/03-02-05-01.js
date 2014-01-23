@@ -58,7 +58,7 @@ window.addEventListener(
       ctx.beginPath();
       ctx.strokeRect(0, 0, width, height);
 
-      ctx.font = "100px '宋体'";
+      ctx.font = "100px Monaco";
       ctx.textBaseline = 'middle';
 
       var textMetrics = ctx.measureText(message);

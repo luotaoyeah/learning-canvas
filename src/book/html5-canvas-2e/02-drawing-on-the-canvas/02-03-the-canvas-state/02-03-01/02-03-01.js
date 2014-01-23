@@ -65,7 +65,7 @@ window.addEventListener(
        */
       ctx.save();
 
-      ctx.font = "12px '宋体'";
+      ctx.font = "12px Monaco";
       ctx.textBaseline = 'top';
       ctx.textAlign = 'left';
       ctx.save();

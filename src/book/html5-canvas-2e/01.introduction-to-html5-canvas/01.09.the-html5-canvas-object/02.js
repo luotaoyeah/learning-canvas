@@ -42,7 +42,7 @@ window.addEventListener(
       ctx.strokeRect(0, 0, width, height);
 
       ctx.fillStyle = '#ff0000';
-      ctx.font = "36px '宋体'";
+      ctx.font = "36px Monaco";
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'center';
       ctx.fillText('HELLO WORLD', width / 2, height / 2);

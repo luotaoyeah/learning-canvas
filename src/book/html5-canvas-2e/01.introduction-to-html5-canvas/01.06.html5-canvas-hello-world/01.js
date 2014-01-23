@@ -28,7 +28,7 @@ window.addEventListener(
 
       /* 添加文本 */
       ctx.fillStyle = '#000000';
-      ctx.font = "20px '宋体'";
+      ctx.font = "20px Monaco";
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
       ctx.fillText('HELLO WORLD', 512, 100);

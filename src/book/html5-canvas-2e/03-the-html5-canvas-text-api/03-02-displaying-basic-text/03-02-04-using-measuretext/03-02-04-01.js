@@ -55,7 +55,7 @@ window.addEventListener(
       ctx.strokeRect(0, 0, width, height);
 
       ctx.fillStyle = '#0000ff';
-      ctx.font = "12px '宋体'";
+      ctx.font = "12px Monaco";
       ctx.textBaseline = 'middle';
 
       /*

@@ -6,7 +6,6 @@ window.addEventListener(
   'load',
   function () {
     var canvas = document.getElementById('canvas01');
-
     var ctx = (function (canvas) {
       var dpr = window.devicePixelRatio || 1;
       var rect = canvas.getBoundingClientRect();
@@ -90,28 +89,28 @@ window.addEventListener(
 
       /* 提示消息 */
       ctx.fillStyle = '#ff0000';
-      ctx.font = "20px '宋体'";
+      ctx.font = "20px Monaco";
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
       ctx.fillText('猜字母游戏', width / 2, 10);
 
       /* 已经猜了多少次 */
       ctx.fillStyle = '#000000';
-      ctx.font = "14px '宋体'";
+      ctx.font = "14px Monaco";
       ctx.textBaseline = 'bottom';
       ctx.textAlign = 'left';
       ctx.fillText('猜的次数：' + guesses, 10, height - 30);
 
       /* 高了还是低了 */
       ctx.fillStyle = '#000000';
-      ctx.font = "14px '宋体'";
+      ctx.font = "14px Monaco";
       ctx.textBaseline = 'bottom';
       ctx.textAlign = 'left';
       ctx.fillText('猜的结果：' + higherOrLower, 10, height - 50);
 
       /* 已经猜过的字母 */
       ctx.fillStyle = '#000000';
-      ctx.font = "14px '宋体'";
+      ctx.font = "14px Monaco";
       ctx.textBaseline = 'bottom';
       ctx.textAlign = 'left';
       ctx.fillText('已经猜过：' + lettersGuessed.join(', '), 10, height - 10);
@@ -119,7 +118,7 @@ window.addEventListener(
       /* 猜对啦 */
       if (gameOver) {
         ctx.fillStyle = '#00ff00';
-        ctx.font = "60px '宋体'";
+        ctx.font = "60px Monaco";
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
         ctx.fillText('猜对啦', width / 2, height / 2);
