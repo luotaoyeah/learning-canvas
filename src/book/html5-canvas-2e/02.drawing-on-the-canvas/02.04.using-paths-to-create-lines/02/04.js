@@ -5,10 +5,10 @@
 
 window.addEventListener(
   'load',
-  function() {
+  function () {
     var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
-      var ctx = (function(canvas) {
+      var ctx = (function (canvas) {
         var dpr = window.devicePixelRatio || 1;
         var rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * dpr;
@@ -19,30 +19,28 @@ window.addEventListener(
       })(canvas);
       var width = canvas.width / (window.devicePixelRatio || 1);
       var height = canvas.height / (window.devicePixelRatio || 1);
-      console.log('--------------------------------------------------');
 
       drawScreen(ctx, width, height);
     }
 
     /**
+     * strokeStyle 属性, 用于设置线条的颜色或者样式,
+     * 默认值为 #000000
      *
      * @param {CanvasRenderingContext2D} ctx
      * @param width
      * @param height
      */
     function drawScreen(ctx, width, height) {
-      /*
-       * strokeStyle 属性，用于设置线条的颜色或者样式，
-       * 默认为 rgb(0, 0, 0, 1)
-       */
+      console.assert(ctx.strokeStyle === '#000000');
+
+      ctx.strokeStyle = '#ff0000';
+      ctx.lineCap = 'round';
 
       ctx.beginPath();
       ctx.moveTo(100, 100);
       ctx.lineTo(200, 200);
-
-      ctx.strokeStyle = '#ff0000';
       ctx.stroke();
-      ctx.closePath();
     }
   },
   false,
