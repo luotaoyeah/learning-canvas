@@ -4,10 +4,10 @@
 
 window.addEventListener(
   'load',
-  function() {
+  function () {
     var canvas = document.getElementById('canvas01');
     if (canvas && canvas.getContext) {
-      var ctx = (function(canvas) {
+      var ctx = (function (canvas) {
         var dpr = window.devicePixelRatio || 1;
         var rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * dpr;
@@ -18,12 +18,10 @@ window.addEventListener(
       })(canvas);
       var width = canvas.width / (window.devicePixelRatio || 1);
       var height = canvas.height / (window.devicePixelRatio || 1);
-      console.log('--------------------------------------------------');
 
       /*
-       * canvas states 指的是一系列的 state 组成的一个 stack
-       * 每一个 state 中可以包含一系列的 data
-       * 这些 data 包括：
+       * canvas states 指的是一系列的 state 组成的一个 stack, 这个 stack 默认是空的,
+       * 每一个 state 中可以包含一系列的状态属性, 包括:
        *     transformation
        *         context.rotate()
        *         context.setTransform()
@@ -46,8 +44,8 @@ window.addEventListener(
        *         context.shadowOffsetY
        *         等等
        *
-       * 通过 context.save() 方法，往 stack 中 push 一个 state
-       * 通过 context.restore() 方法，从 stack 中 pop 一个 state 出来
+       * 通过 context.save() 方法, 往 stack 中 push 一个 state
+       * 通过 context.restore() 方法, 从 stack 中 pop 一个 state 出来
        */
 
       drawScreen(ctx, width, height);
@@ -60,21 +58,27 @@ window.addEventListener(
      * @param height
      */
     function drawScreen(ctx, width, height) {
-      /*
-       * 首先调用 save() 方法，将默认的 state 添加到 stack 中去
-       */
-      ctx.save();
-
-      ctx.font = "12px Monaco";
+      ctx.font = '15px Monaco';
       ctx.textBaseline = 'top';
       ctx.textAlign = 'left';
       ctx.save();
 
       ctx.fillStyle = '#ff0000';
-      ctx.fillText('A', 0, 0);
+      ctx.fillText('1', 0, 0);
+      ctx.save();
+
+      ctx.fillStyle = '#00ff00';
+      ctx.fillText('2', 0, 30);
+      ctx.save();
 
       ctx.restore();
-      ctx.fillText('B', 0, 30);
+      ctx.fillText('3', 0, 60);
+
+      ctx.restore();
+      ctx.fillText('4', 0, 90);
+
+      ctx.restore();
+      ctx.fillText('5', 0, 120);
     }
   },
   false,
