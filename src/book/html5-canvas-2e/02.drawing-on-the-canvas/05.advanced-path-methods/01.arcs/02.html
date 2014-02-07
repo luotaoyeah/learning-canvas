@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02.05.01</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      /*
+       * 2.5. Advanced Path Methods
+       *     2.5.1. Arcs
+       *         context.arcTo()
+       */
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          if (canvas && canvas.getContext) {
+            var ctx = (function (canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext('2d');
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           * context.arcTo() 的作用是：
+           *     在两条线的夹角之间画一个圆, 这个圆跟两条线都相切,
+           *     保留夹角内侧的这段圆弧,
+           *     直线连接圆弧的起点和第一条线的起点.
+           *
+           * 要确定这两条线, 需要三个点, 第一个点为当前路径的当前点,
+           * arcTo() 方法的参数, 指定第二个和第三个点的坐标, 以及圆弧的半径,
+           * 第二个点作为这个夹角的顶点,
+           * 第一个点跟圆弧的起点会使用直线连接.
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            {
+              ctx.strokeStyle = '#0000ff';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(100, 200);
+              ctx.arcTo(350, 350, 100, 100, 20);
+              ctx.stroke();
+
+              ctx.strokeStyle = '#ff0000';
+              ctx.lineWidth = 1;
+              ctx.lineJoin = 'miter';
+              ctx.beginPath();
+              ctx.moveTo(100, 200);
+              ctx.lineTo(350, 350);
+              ctx.lineTo(100, 100);
+              ctx.stroke();
+            }
+
+            {
+              ctx.strokeStyle = '#0000ff';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(100, 400);
+              ctx.arcTo(350, 550, 100, 300, 40);
+              ctx.stroke();
+
+              ctx.strokeStyle = '#ff0000';
+              ctx.lineWidth = 1;
+              ctx.lineJoin = 'miter';
+              ctx.beginPath();
+              ctx.moveTo(100, 400);
+              ctx.lineTo(350, 550);
+              ctx.lineTo(100, 300);
+              ctx.stroke();
+            }
+
+            {
+              ctx.strokeStyle = '#0000ff';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(400, 350);
+              ctx.arcTo(600, 350, 600, 0, 100);
+              ctx.stroke();
+
+              ctx.strokeStyle = '#ff0000';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(400, 350);
+              ctx.lineTo(600, 350);
+              ctx.lineTo(600, 0);
+              ctx.stroke();
+
+              ctx.beginPath();
+              ctx.arc(500, 250, 100, 0, (Math.PI / 180) * 360);
+              ctx.stroke();
+            }
+
+            {
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = '#ff0000';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
