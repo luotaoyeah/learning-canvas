@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>01.06</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas height="600" id="canvas01" width="1000"></canvas>
+    </div>
+
+    <script>
+      /*
+       * 对 canvas 的操作必须保证在文档加载完成之后进行,
+       * 因此需要监听 window 对象的 load 事件
+       */
+
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          if (canvas && canvas.getContext) {
+            /*
+             * 通过 HTMLCanvasElement.getContext() 方法,
+             * 获取 canvas 元素的 context 对象,
+             * 对 canvas 元素的所有操作, 都是通过 context 对象进行的
+             */
+            var context = canvas.getContext('2d');
+            drawScreen(context);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           */
+          function drawScreen(ctx) {
+            /* 添加边框 */
+            ctx.strokeStyle = '#000000';
+            ctx.strokeRect(0, 0, 1000, 600);
+
+            /* 设置背景颜色 */
+            ctx.fillStyle = '#ffffaa';
+            ctx.fillRect(1, 1, 998, 598);
+
+            /* 添加文本 */
+            ctx.fillStyle = '#000000';
+            ctx.font = '20px Monaco';
+            ctx.textBaseline = 'top';
+            ctx.textAlign = 'center';
+            ctx.fillText('HELLO WORLD', 500, 35);
+
+            /* 添加图片 */
+            var image = new Image(418, 435);
+            image.onload = function () {
+              ctx.drawImage(image, 1000 / 2 - 418 / 2, 600 / 2 - 435 / 2);
+            };
+            image.src = './01.jpg';
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
