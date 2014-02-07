@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02.05.02</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      /*
+       * 2.5. Advanced Path Methods
+       *     2.5.2. Bezier Curves
+       *         context.quadraticCurveTo()
+       */
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          if (canvas && canvas.getContext) {
+            var ctx = (function (canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext('2d');
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           * canvas 中的贝塞尔曲线有两种形式:
+           *     二次的, context.quadraticCurveTo(), 只有一个控制点,
+           *     三次的, context.bezierCurveTo(), 有两个控制点
+           *
+           * https://www.jasondavies.com/animated-bezier/
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            {
+              ctx.lineWidth = 4;
+              ctx.strokeStyle = '#0000ff';
+              ctx.beginPath();
+              ctx.moveTo(50, 50);
+              ctx.quadraticCurveTo(150, 100, 50, 150);
+              ctx.stroke();
+
+              ctx.lineWidth = 1;
+              ctx.strokeStyle = '#ff0000';
+              ctx.beginPath();
+              ctx.moveTo(50, 50);
+              ctx.lineTo(150, 100);
+              ctx.lineTo(50, 150);
+              ctx.stroke();
+            }
+
+            {
+              ctx.lineWidth = 4;
+              ctx.strokeStyle = '#0000ff';
+              ctx.beginPath();
+              ctx.moveTo(300, 100);
+              ctx.quadraticCurveTo(400, 150, 500, 100);
+              ctx.stroke();
+
+              ctx.lineWidth = 1;
+              ctx.strokeStyle = '#ff0000';
+              ctx.beginPath();
+              ctx.moveTo(300, 100);
+              ctx.lineTo(400, 150);
+              ctx.lineTo(500, 100);
+              ctx.stroke();
+            }
+
+            animation(ctx);
+
+            {
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = '#ff0000';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+
+          var x = 0;
+          var toRight = true;
+
+          /**
+           * @param {CanvasRenderingContext2D} ctx
+           */
+          function animation(ctx) {
+            window.requestAnimationFrame(animation.bind(null, ctx));
+
+            if (toRight) {
+              if (x < 1000) {
+                x += 5;
+              } else {
+                toRight = false;
+              }
+            } else {
+              if (x > 0) {
+                x -= 5;
+              } else {
+                toRight = true;
+              }
+            }
+
+            ctx.clearRect(0, 300, 1000, 300);
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#0000ff';
+            ctx.beginPath();
+            ctx.moveTo(400, 400);
+            ctx.quadraticCurveTo(x, 450, 600, 400);
+            ctx.stroke();
+
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.moveTo(400, 400);
+            ctx.lineTo(x, 450);
+            ctx.lineTo(600, 400);
+            ctx.stroke();
+
+            {
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = '#ff0000';
+
+              for (var i = 7; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 300);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
