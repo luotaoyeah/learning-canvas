@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>01.11</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+
+    <script>
+      /*
+       * 1.11. Hello World Animated Edition
+       */
+
+      /*
+       * canvas 最重要的一个特性就是 animation
+       * 在这个例子中, 通过不断更新画布的透明度来实现文本的淡入淡出效果
+       */
+
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          var ctx = (function (canvas) {
+            var dpr = window.devicePixelRatio || 1;
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas);
+          var width = canvas.width / (window.devicePixelRatio || 1);
+          var height = canvas.height / (window.devicePixelRatio || 1);
+
+          /** 本次渲染的透明度 */
+          var alpha = 0.25;
+          /** 是否正在淡入, 否则正在淡出 */
+          var fadeIn = true;
+
+          drawScreen(ctx, width, height);
+
+          /**
+           * CanvasRenderingContext2D.globalAlpha 属性
+           * 用来设置画布全局的透明度
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            window.requestAnimationFrame(drawScreen.bind(null, ctx, width, height));
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (fadeIn) {
+              if (alpha < 1) {
+                alpha += 0.01;
+              } else {
+                fadeIn = false;
+              }
+            } else {
+              if (alpha > 0) {
+                alpha -= 0.01;
+              } else {
+                fadeIn = true;
+              }
+            }
+
+            ctx.globalAlpha = alpha;
+
+            ctx.font = '40px Monaco';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#000000';
+            ctx.fillText('透明度: ' + alpha.toFixed(2), width / 2, height / 2);
+
+            {
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = '#ff0000';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
