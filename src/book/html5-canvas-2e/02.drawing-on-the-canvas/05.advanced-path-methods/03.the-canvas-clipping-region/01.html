@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02.05.01</title>
+    <title>02.05.03</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -11,8 +11,8 @@
     <script>
       /*
        * 2.5. Advanced Path Methods
-       *     2.5.1. Arcs
-       *         context.arcTo()
+       *     2.5.3. The Canvas Clipping Region
+       *         context.clip()
        */
       window.addEventListener(
         'load',
@@ -35,80 +35,60 @@
           }
 
           /**
-           * context.arcTo() 的作用是：
-           *     在两条线的夹角之间画一个圆, 这个圆跟两条线都相切,
-           *     保留夹角内侧的这段圆弧,
-           *     直线连接圆弧的起点和第一条线的起点.
-           *
-           * 要确定这两条线, 需要三个点, 第一个点为当前路径的当前点,
-           * arcTo() 方法的参数, 指定第二个点和第三个点的坐标, 以及圆弧的半径,
-           * 第二个点为夹角的顶点,
-           * 第一个点跟圆弧的起点使用直线连接.
+           * context.clip() 用于裁剪画布的可视区域,
+           * 在裁剪之前, 需要先设置想要裁剪的范围,
+           * 通常使用 rect() 方法, 将可视区域裁剪到指定的矩形范围之内,
+           * 经过裁剪之后所有的绘制, 只有在这个可视区域内的部分才可见, 其余部分不会显示.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
+            ctx.save();
+
             {
-              ctx.strokeStyle = '#0000ff';
-              ctx.lineWidth = 4;
               ctx.beginPath();
-              ctx.moveTo(100, 200);
-              ctx.arcTo(350, 350, 100, 100, 20);
+              ctx.rect(0, 0, 50, 50);
+              ctx.clip();
+
+              ctx.strokeStyle = '#000000';
+              ctx.beginPath();
+              ctx.rect(0, 0, 50, 50);
               ctx.stroke();
 
               ctx.strokeStyle = '#ff0000';
-              ctx.lineWidth = 1;
-              ctx.lineJoin = 'miter';
               ctx.beginPath();
-              ctx.moveTo(100, 200);
-              ctx.lineTo(350, 350);
-              ctx.lineTo(100, 100);
+              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
             }
 
             {
-              ctx.strokeStyle = '#0000ff';
-              ctx.lineWidth = 4;
+              ctx.restore();
+              ctx.save();
               ctx.beginPath();
-              ctx.moveTo(100, 400);
-              ctx.arcTo(350, 550, 100, 300, 40);
-              ctx.stroke();
+              ctx.rect(100, 100, 150, 150);
+              ctx.clip();
 
-              ctx.strokeStyle = '#ff0000';
-              ctx.lineWidth = 1;
-              ctx.lineJoin = 'miter';
               ctx.beginPath();
-              ctx.moveTo(100, 400);
-              ctx.lineTo(350, 550);
-              ctx.lineTo(100, 300);
-              ctx.stroke();
-            }
-
-            {
-              ctx.strokeStyle = '#0000ff';
-              ctx.lineWidth = 4;
-              ctx.beginPath();
-              ctx.moveTo(400, 350);
-              ctx.arcTo(600, 350, 600, 0, 100);
-              ctx.stroke();
-
-              ctx.strokeStyle = '#ff0000';
-              ctx.lineWidth = 1;
-              ctx.beginPath();
-              ctx.moveTo(400, 350);
-              ctx.lineTo(600, 350);
-              ctx.lineTo(600, 0);
+              ctx.strokeStyle = '#000000';
+              ctx.rect(100, 100, 150, 150);
               ctx.stroke();
 
               ctx.beginPath();
-              ctx.arc(500, 250, 100, 0, (Math.PI / 180) * 360);
+              ctx.strokeStyle = '#ff00ff';
+              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
             }
 
-            // 网格背景
+            ctx.restore();
+            ctx.beginPath();
+            ctx.strokeStyle = '#0000ff';
+            ctx.arc(100, 100, 90, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+            ctx.stroke();
+
             {
+              // 网格背景
               ctx.lineWidth = 0.2;
               ctx.strokeStyle = '#ff0000';
 

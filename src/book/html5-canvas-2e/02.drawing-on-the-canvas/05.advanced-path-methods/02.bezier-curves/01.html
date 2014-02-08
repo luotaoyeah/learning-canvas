@@ -80,7 +80,7 @@
               ctx.stroke();
             }
 
-            animation(ctx);
+            animate(ctx);
 
             {
               ctx.lineWidth = 0.2;
@@ -108,8 +108,8 @@
           /**
            * @param {CanvasRenderingContext2D} ctx
            */
-          function animation(ctx) {
-            window.requestAnimationFrame(animation.bind(null, ctx));
+          function animate(ctx) {
+            window.requestAnimationFrame(animate.bind(null, ctx));
 
             if (toRight) {
               if (x < 1000) {
