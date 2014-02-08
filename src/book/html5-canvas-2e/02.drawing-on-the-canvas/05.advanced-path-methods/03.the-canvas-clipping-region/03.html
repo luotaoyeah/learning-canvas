@@ -2,13 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-05-03</title>
+    <title>02.05.03</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;">
-        your browser does not support canvas
-      </canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -18,10 +16,10 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -32,49 +30,64 @@
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
 
           /**
+           * clip 属于状态的一部分,
+           * 调用 clip() 方法之后, 可视区域会被限制在裁剪区域,
+           * 为了将可视区域恢复到全部画布, 需要在裁剪之前使用 save() 方法, 将当前状态保存到状态栈中,
+           * 然后在裁剪之后使用 restore() 方法, 将状态恢复.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
-
-            /*
-             * 调用 clip() 方法之后，可视区域会被限制在裁剪区域，
-             * 为了将可视区域恢复到全部画布，
-             * 需要在裁剪之前使用 save() 方法，将当前状态保存到状态栈中，
-             * 然后在裁剪之后使用 restore() 方法，将状态恢复
-             */
-
-            /* 裁剪之前保存状态 */
             ctx.save();
-            ctx.beginPath();
-            ctx.strokeStyle = '#999999';
-            ctx.rect(10, 10, 100, 100);
-            ctx.stroke();
 
+            {
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+
+            ctx.restore();
+            // 裁剪之前保存状态
+            ctx.save();
+
+            ctx.strokeStyle = '#000000';
             ctx.beginPath();
-            ctx.rect(10, 10, 100, 100);
+            ctx.rect(0, 0, 100, 100);
+            ctx.stroke();
             ctx.clip();
 
-            ctx.beginPath();
             ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
             ctx.arc(100, 100, 80, 0, (Math.PI / 180) * 720, false);
             ctx.stroke();
 
-            /* 裁剪之后恢复状态 */
+            // 裁剪之后恢复状态
             ctx.restore();
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
             ctx.arc(100, 100, 80, 0, (Math.PI / 180) * 720, false);
             ctx.stroke();
           }
