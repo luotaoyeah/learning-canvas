@@ -35,10 +35,8 @@
           }
 
           /**
-           * context.clip() 用于裁剪画布的可视区域,
-           * 在裁剪之前, 需要先设置想要裁剪的范围,
-           * 通常使用 rect() 方法, 将可视区域裁剪到指定的矩形范围之内,
-           * 经过裁剪之后所有的绘制, 只有在这个可视区域内的部分才可见, 其余部分不会显示.
+           * 除了可以使用 rect() 方法将裁剪区域设置为一个矩形之外,
+           * 还可以使用其他方法, 比如 arc() 方法, 将裁剪区域设置为其他的形状.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
@@ -70,17 +68,26 @@
             {
               ctx.restore();
               ctx.save();
-
-              ctx.strokeStyle = '#000000';
               ctx.beginPath();
-              ctx.rect(0, 0, 50, 50);
+              ctx.strokeStyle = '#000000';
+              ctx.arc(110, 110, 100, 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
+
+              ctx.beginPath();
+              ctx.arc(110, 110, 100, 0, (Math.PI / 180) * 360, false);
               ctx.clip();
 
+              ctx.beginPath();
               ctx.strokeStyle = '#ff0000';
               ctx.lineWidth = 2;
+              ctx.rect(100, 100, 200, 200);
+              ctx.stroke();
+
+              ctx.restore();
               ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
+              ctx.lineWidth = 2;
+              ctx.rect(100, 100, 200, 200);
               ctx.stroke();
             }
 
@@ -91,32 +98,33 @@
               ctx.strokeStyle = '#000000';
               ctx.lineWidth = 1;
               ctx.beginPath();
-              ctx.rect(100, 100, 150, 150);
+              ctx.moveTo(350, 350);
+              ctx.lineTo(650, 350);
+              ctx.lineTo(650, 450);
+              ctx.lineTo(600, 450);
+              ctx.lineTo(600, 400);
+              ctx.lineTo(400, 400);
+              ctx.lineTo(400, 450);
+              ctx.lineTo(350, 450);
+              ctx.closePath();
               ctx.stroke();
               ctx.clip();
 
-              ctx.strokeStyle = '#ff00ff';
-              ctx.lineWidth = 2;
               ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.strokeStyle = '#ff0000';
+              ctx.lineWidth = 2;
+              ctx.arc(500, 450, 105, 0 * (Math.PI / 180), 360 * (Math.PI / 180));
               ctx.stroke();
 
               ctx.restore();
               ctx.save();
 
+              ctx.beginPath();
               ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
               ctx.lineWidth = 2;
-              ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.arc(500, 450, 105, 0 * (Math.PI / 180), 360 * (Math.PI / 180));
               ctx.stroke();
             }
-
-            ctx.restore();
-            ctx.strokeStyle = '#0000ff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(100, 100, 90, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
-            ctx.stroke();
           }
         },
         false,
