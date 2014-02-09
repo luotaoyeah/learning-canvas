@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-07-03</title>
+    <title>02.07.03</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -15,10 +15,10 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -29,7 +29,6 @@
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -41,27 +40,47 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
+            var rectWidth = 100;
+
+            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+
+            ctx.strokeStyle = '#0000ff';
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
+            ctx.strokeRect(150, 150, rectWidth, rectWidth);
 
-            /*
-             * 将 scale() 和 rotate() 结合使用
-             */
-
-            var r = (Math.PI / 180) * 45;
-            var w = 200 * Math.cos(r);
             ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
             ctx.translate(200, 200);
             ctx.rotate((Math.PI / 180) * 45);
             ctx.scale(2, 2);
-            ctx.fillStyle = '#ff0000';
-            ctx.fillRect(-w / 2, -w / 2, w, w);
+
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.strokeRect(-rectWidth / 2, -rectWidth / 2, rectWidth, rectWidth);
 
             ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
-            ctx.fillStyle = '#0000ff';
-            ctx.fillRect(400, 400, w, w);
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
           }
         },
         false,
