@@ -50,7 +50,7 @@
              * 将 scale() 和 rotate() 结合使用
              */
 
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
             ctx.translate(400, 400);
             ctx.rotate((Math.PI / 180) * 90);
             ctx.scale(2, 1);

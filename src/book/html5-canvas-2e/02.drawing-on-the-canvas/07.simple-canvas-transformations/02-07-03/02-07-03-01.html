@@ -52,14 +52,14 @@
 
             var r = (Math.PI / 180) * 45;
             var w = 200 * Math.cos(r);
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
             ctx.translate(200, 200);
             ctx.rotate((Math.PI / 180) * 45);
             ctx.scale(2, 2);
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(-w / 2, -w / 2, w, w);
 
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
             ctx.fillStyle = '#0000ff';
             ctx.fillRect(400, 400, w, w);
           }
