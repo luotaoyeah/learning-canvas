@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>02.08.02</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          if (canvas && canvas.getContext) {
+            var ctx = (function (canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext('2d');
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            var gradient = ctx.createLinearGradient(0, 0, 100, 0);
+            gradient.addColorStop(0, '#ff0000');
+            gradient.addColorStop(0.5, '#00ff00');
+            gradient.addColorStop(1, '#ff0000');
+            ctx.fillStyle = gradient;
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(50, 0);
+            ctx.lineTo(100, 50);
+            ctx.lineTo(50, 100);
+            ctx.lineTo(0, 100);
+            ctx.lineTo(0, 0);
+            ctx.fill();
+
+            var gradient02 = ctx.createLinearGradient(100, 100, 200, 100);
+            gradient02.addColorStop(0, '#ff0000');
+            gradient02.addColorStop(0.5, '#00ff00');
+            gradient02.addColorStop(1, '#ff0000');
+            ctx.strokeStyle = gradient02;
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(100, 100);
+            ctx.lineTo(150, 100);
+            ctx.lineTo(200, 150);
+            ctx.lineTo(150, 200);
+            ctx.lineTo(100, 200);
+            ctx.lineTo(100, 100);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(150, 300, 50, 0, 360 * (Math.PI / 180));
+            ctx.stroke();
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
