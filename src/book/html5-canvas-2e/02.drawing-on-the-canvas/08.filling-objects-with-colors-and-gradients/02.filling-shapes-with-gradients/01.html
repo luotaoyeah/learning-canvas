@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-08-02</title>
+    <title>02.08.02</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -16,10 +16,10 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -30,7 +30,6 @@
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
@@ -42,11 +41,6 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
-            ctx.beginPath();
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
-
             var gradient = ctx.createLinearGradient(0, 0, 100, 0);
             gradient.addColorStop(0, '#ff0000');
             gradient.addColorStop(0.5, '#00ff00');
@@ -56,11 +50,31 @@
             ctx.fillRect(0, 100, 50, 100);
 
             /*
-             * 当绘制的图形的尺寸，超过渐变区域的范围时，
-             * 超过部分的图形的颜色为，渐变区域在该方向最终的颜色，
-             * 如下，超过部分的颜色为红色（addColorStop(1, "#ff0000")）
+             * 当绘制的图形的尺寸, 超出渐变区域时,
+             * 超出部分的颜色为渐变区域在该方向最终的颜色.
              */
             ctx.fillRect(0, 200, 200, 100);
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
           }
         },
         false,
