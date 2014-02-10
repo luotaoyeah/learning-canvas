@@ -34,28 +34,63 @@
           }
 
           /**
-           * pattern 图案/花样, 用图片作为笔刷的样式, 并指定重复模式.
+           * pattern 有四种重复模式:
+           *   repeat
+           *   repeat-x
+           *   repeat-y
+           *   no-repeat
+           *
+           * 四种重复模式都是从坐标原点开始计算的.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(0, 0, 320, 320);
+            ctx.save();
 
             var image = new Image();
             image.src = './01.png';
             image.onload = function () {
-              const pattern = ctx.createPattern(image, 'repeat');
+              ctx.strokeStyle = '#ff0000';
+              ctx.lineWidth = 2;
 
-              ctx.fillStyle = pattern;
-              ctx.fillRect(0, 0, 320, 320);
+              ctx.beginPath();
+              ctx.strokeRect(50, 50, 100, 100);
+              ctx.beginPath();
+              ctx.strokeRect(200, 50, 100, 100);
+              ctx.beginPath();
+              ctx.strokeRect(350, 50, 100, 100);
+              ctx.beginPath();
+              ctx.strokeRect(500, 50, 100, 100);
 
-              ctx.strokeStyle = pattern;
-              ctx.lineWidth = 32;
-              ctx.strokeRect(400, 32 / 2, 320 - 32, 320 - 32);
+              ctx.restore();
+              ctx.save();
+              ctx.translate(50, 50);
+              ctx.fillStyle = ctx.createPattern(image, 'no-repeat');
+              ctx.beginPath();
+              ctx.fillRect(0, 0, 100, 100);
+
+              ctx.restore();
+              ctx.save();
+              ctx.translate(200, 50);
+              ctx.fillStyle = ctx.createPattern(image, 'repeat-y');
+              ctx.beginPath();
+              ctx.fillRect(0, 0, 100, 100);
+
+              ctx.restore();
+              ctx.save();
+              ctx.translate(350, 50);
+              ctx.fillStyle = ctx.createPattern(image, 'repeat-x');
+              ctx.beginPath();
+              ctx.fillRect(0, 0, 100, 100);
+
+              ctx.restore();
+              ctx.save();
+              ctx.translate(500, 50);
+              ctx.fillStyle = ctx.createPattern(image, 'repeat');
+              ctx.beginPath();
+              ctx.fillRect(0, 0, 100, 100);
             };
 
             {
