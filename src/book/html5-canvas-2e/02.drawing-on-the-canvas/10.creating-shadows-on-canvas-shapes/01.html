@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-10-01</title>
+    <title>02.10</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -18,10 +18,10 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -32,55 +32,68 @@
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
 
           /**
+           * 跟阴影相关的属性有四个：
+           *     context.shadowOffsetX  水平偏移
+           *     context.shadowOffsetY  垂直偏移
+           *     context.shadowBlur     模糊距离
+           *     context.shadowColor    颜色
+           *  context.shadowOffsetX 如果为负数，则表示向左偏移，
+           *  context.shadowOffsetY 如果为负数，则表示向上偏移
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
-            ctx.beginPath();
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
-
-            /*
-             * 跟阴影相关的属性有四个：
-             *     context.shadowOffsetX  水平偏移
-             *     context.shadowOffsetY  垂直偏移
-             *     context.shadowBlur     模糊距离
-             *     context.shadowColor    颜色
-             *  context.shadowOffsetX 如果为负数，则表示向左偏移，
-             *  context.shadowOffsetY 如果为负数，则表示向上偏移
-             */
-
             ctx.shadowColor = '#000000';
             ctx.shadowBlur = 5;
             ctx.shadowOffsetX = 5;
             ctx.shadowOffsetY = 5;
             ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
             ctx.fillRect(100, 100, 100, 100);
 
-            ctx.shadowColor = '#000000';
+            ctx.shadowColor = '#00ff00';
             ctx.shadowBlur = 20;
             ctx.shadowOffsetX = -5;
             ctx.shadowOffsetY = -5;
             ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
             ctx.fillRect(300, 100, 100, 100);
 
-            ctx.shadowColor = '#000000';
+            ctx.shadowColor = '#0000ff';
             ctx.shadowBlur = 30;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
             ctx.fillStyle = '#ff0000';
             ctx.beginPath();
-            ctx.arc(550, 150, 50, 0, (Math.PI / 180) * 360, false);
-            ctx.fill();
+            ctx.fillRect(500, 100, 100, 100);
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
           }
         },
         false,
