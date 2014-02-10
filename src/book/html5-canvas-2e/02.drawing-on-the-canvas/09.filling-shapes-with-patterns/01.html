@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02-09-01</title>
+    <title>02.09</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -15,10 +15,10 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -29,30 +29,55 @@
             })(canvas);
             var width = canvas.width / (window.devicePixelRatio || 1);
             var height = canvas.height / (window.devicePixelRatio || 1);
-            console.log('--------------------------------------------------');
 
             drawScreen(ctx, width, height);
           }
 
           /**
+           * pattern 图案/花样, 用图片作为笔刷的样式.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
-            ctx.beginPath();
-            ctx.rect(0, 0, width, height);
-            ctx.stroke();
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(0, 0, 320, 320);
 
             var image = new Image();
-            image.src = './02-09-01-01.png';
-            image.onload = function() {
-              var pattern = ctx.createPattern(image, 'repeat');
+            image.src = './01.png';
+            image.onload = function () {
+              const pattern = ctx.createPattern(image, 'repeat');
+
               ctx.fillStyle = pattern;
               ctx.fillRect(0, 0, 320, 320);
+
+              ctx.strokeStyle = pattern;
+              ctx.lineWidth = 32;
+              ctx.strokeRect(400, 32 / 2, 320 - 32, 320 - 32);
             };
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
           }
         },
         false,
