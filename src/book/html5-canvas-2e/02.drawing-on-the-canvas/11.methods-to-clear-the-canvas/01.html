@@ -2,20 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02.10</title>
+    <title>02.11.01</title>
   </head>
   <body>
     <div style="text-align: center">
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.10. Creating Shadows on Canvas Shapes
-       *     context.shadowOffsetX
-       *     context.shadowOffsetY
-       *     context.shadowBlur
-       *     context.shadowColor
-       */
       window.addEventListener(
         'load',
         function () {
@@ -36,44 +29,40 @@
             drawScreen(ctx, width, height);
           }
 
+          var x = 100;
+          var forward = true;
+
           /**
-           * 跟阴影相关的属性有四个:
-           *     context.shadowColor    颜色
-           *     context.shadowBlur     模糊距离
-           *     context.shadowOffsetX  水平偏移
-           *     context.shadowOffsetY  垂直偏移
-           *
-           *  context.shadowOffsetX 如果为负数，则表示向左偏移
-           *  context.shadowOffsetY 如果为负数，则表示向上偏移
-           *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.shadowColor = '#000000';
-            ctx.shadowBlur = 5;
-            ctx.shadowOffsetX = 5;
-            ctx.shadowOffsetY = 5;
-            ctx.fillStyle = '#ff0000';
-            ctx.beginPath();
-            ctx.fillRect(100, 100, 100, 100);
+            window.requestAnimationFrame(drawScreen.bind(null, ctx, width, height));
 
-            ctx.shadowColor = '#00ff00';
-            ctx.shadowBlur = 20;
-            ctx.shadowOffsetX = -5;
-            ctx.shadowOffsetY = -5;
-            ctx.fillStyle = '#ff0000';
-            ctx.beginPath();
-            ctx.fillRect(300, 100, 100, 100);
+            if (forward) {
+              x += 10;
+              if (x >= width - 100) {
+                x = width - 100;
+                forward = false;
+              }
+            } else {
+              x -= 10;
+              if (x <= 100) {
+                x = 100;
+                forward = true;
+              }
+            }
 
-            ctx.shadowColor = '#0000ff';
-            ctx.shadowBlur = 30;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            ctx.fillStyle = '#ff0000';
+            // 清空画布最简单的方法：使用某个颜色填充整个画布
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.fillRect(500, 100, 100, 100);
+            ctx.arc(x, 100, 50, 0, 360 * (Math.PI / 180));
+            ctx.stroke();
 
             {
               // 网格背景
