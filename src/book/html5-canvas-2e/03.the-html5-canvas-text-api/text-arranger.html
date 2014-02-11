@@ -9,7 +9,8 @@
         font-family: monaco, serif;
       }
 
-      input {
+      input,
+      select {
         border-radius: 3px;
       }
     </style>
@@ -22,8 +23,18 @@
         <form style="text-align: left">
           <div>
             <label>
-              <span style="display: inline-block; text-align: right; width: 80px">Text: </span>
-              <input id="textBox" type="text" />
+              <span style="display: inline-block; text-align: right; width: 200px">Text: </span>
+              <input id="textBox" type="text" value="html" />
+            </label>
+          </div>
+          <div>
+            <label>
+              <span style="display: inline-block; text-align: right; width: 200px">Fill Or Stroke: </span>
+              <select id="fillOrStroke">
+                <option value="fill">fill</option>
+                <option value="stroke">stroke</option>
+                <option value="both">both</option>
+              </select>
             </label>
           </div>
         </form>
@@ -57,6 +68,12 @@
             drawScreen(ctx, width, height);
           });
 
+          var fillOrStroke = 'fill';
+          document.querySelector('#fillOrStroke').addEventListener('change', function (event) {
+            fillOrStroke = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
           drawScreen(ctx, width, height);
 
           /**
@@ -71,7 +88,7 @@
             ctx.clearRect(0, 0, width, height);
 
             ctx.font = '50px Monaco';
-            ctx.strokeStyle = '#ff0000';
+            ctx.textBaseline = 'middle';
 
             // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
             var metrics = ctx.measureText(message);
@@ -79,7 +96,22 @@
             var xPosition = width / 2 - textWidth / 2;
             var yPositon = height / 2;
 
-            ctx.strokeText(message, xPosition, yPositon);
+            switch (fillOrStroke) {
+              case 'fill':
+                ctx.fillStyle = '#ff0000';
+                ctx.fillText(message, xPosition, yPositon);
+                break;
+              case 'stroke':
+                ctx.strokeStyle = '#ff0000';
+                ctx.strokeText(message, xPosition, yPositon);
+                break;
+              case 'both':
+                ctx.fillStyle = '#ff0000';
+                ctx.fillText(message, xPosition, yPositon);
+                ctx.strokeStyle = '#000000';
+                ctx.strokeText(message, xPosition, yPositon);
+                break;
+            }
 
             {
               // 网格背景
