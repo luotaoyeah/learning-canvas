@@ -52,6 +52,10 @@
           var height = canvas.height / (ratio || 1);
 
           var message = 'html';
+          document.querySelector('#textBox').addEventListener('keyup', function (event) {
+            message = event.target.value;
+            drawScreen(ctx, width, height);
+          });
 
           drawScreen(ctx, width, height);
 
@@ -62,13 +66,16 @@
            * @param height
            */
           function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
             ctx.font = 'italic small-caps bold 50px/50px Monaco';
             ctx.strokeStyle = '#ff0000';
             ctx.strokeText(message, 100, 100);
 
             {
               // 网格背景
-              ctx.restore();
               ctx.lineWidth = 0.2;
               ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 
