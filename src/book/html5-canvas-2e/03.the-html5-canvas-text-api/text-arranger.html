@@ -95,6 +95,29 @@
               <input id="fontColor" type="color" value="#ff0000" />
             </label>
           </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Baseline: </span>
+              <select id="textBaseline">
+                <option value="top">top</option>
+                <option value="middle">middle</option>
+                <option value="bottom">bottom</option>
+                <option selected value="alphabetic">alphabetic</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Align: </span>
+              <select id="textAlign">
+                <option selected value="left">left</option>
+                <option value="center">center</option>
+                <option value="right">right</option>
+              </select>
+            </label>
+          </div>
         </form>
       </div>
     </div>
@@ -168,6 +191,18 @@
             drawScreen(ctx, width, height);
           });
 
+          var textBaseline = 'alphabetic';
+          document.querySelector('#textBaseline').addEventListener('change', function (event) {
+            textBaseline = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var textAlign = 'left';
+          document.querySelector('#textAlign').addEventListener('change', function (event) {
+            textAlign = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
           drawScreen(ctx, width, height);
 
           /**
@@ -182,12 +217,15 @@
             ctx.clearRect(0, 0, width, height);
 
             ctx.font = fontStyle + ' ' + fontVariant + ' ' + fontWeight + ' ' + fontSize + 'px ' + fontFamily;
-            ctx.textBaseline = 'middle';
+            // 文字水平对齐方式, 相对于文本的 x 对齐
+            ctx.textAlign = textAlign;
+            // 文字垂直对齐方式, 相对于文本的 y 对齐
+            ctx.textBaseline = textBaseline;
 
             // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
             var metrics = ctx.measureText(message);
             var textWidth = metrics.width;
-            var xPosition = width / 2 - textWidth / 2;
+            var xPosition = width / 2;
             var yPositon = height / 2;
 
             switch (fillOrStroke) {
@@ -206,6 +244,18 @@
                 ctx.strokeText(message, xPosition, yPositon);
                 break;
             }
+
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
+
+            ctx.beginPath();
+            ctx.moveTo(0, height / 2);
+            ctx.lineTo(width, height / 2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(width / 2, 0);
+            ctx.lineTo(width / 2, height);
+            ctx.stroke();
 
             {
               // 网格背景
