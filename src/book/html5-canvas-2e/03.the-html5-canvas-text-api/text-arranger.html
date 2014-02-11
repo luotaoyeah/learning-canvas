@@ -23,17 +23,68 @@
         <form style="text-align: left">
           <div>
             <label>
-              <span style="display: inline-block; text-align: right; width: 200px">Text: </span>
+              <span style="display: inline-block; width: 200px">Text: </span>
               <input id="textBox" type="text" value="html" />
             </label>
           </div>
+
           <div>
             <label>
-              <span style="display: inline-block; text-align: right; width: 200px">Fill Or Stroke: </span>
+              <span style="display: inline-block; width: 200px">Fill Or Stroke: </span>
               <select id="fillOrStroke">
                 <option value="fill">fill</option>
                 <option value="stroke">stroke</option>
                 <option value="both">both</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Style: </span>
+              <select id="fontStyle">
+                <option value="normal">normal</option>
+                <option value="italic">italic</option>
+                <option value="oblique">oblique</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Variant: </span>
+              <select id="fontVariant">
+                <option value="normal">normal</option>
+                <option value="small-caps">small-caps</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Weight: </span>
+              <select id="fontWeight">
+                <option value="normal">normal</option>
+                <option value="bold">bold</option>
+                <option value="bolder">bolder</option>
+                <option value="lighter">lighter</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Size: </span>
+              <input id="fontSize" max="100" min="10" step="1" type="range" value="50" />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Font: </span>
+              <select id="fontFamily">
+                <option value="Monaco">Monaco</option>
+                <option value="simsun">simsun</option>
               </select>
             </label>
           </div>
@@ -74,6 +125,36 @@
             drawScreen(ctx, width, height);
           });
 
+          var fontStyle = 'normal';
+          document.querySelector('#fontStyle').addEventListener('change', function (event) {
+            fontStyle = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var fontVariant = 'normal';
+          document.querySelector('#fontVariant').addEventListener('change', function (event) {
+            fontVariant = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var fontWeight = 'normal';
+          document.querySelector('#fontWeight').addEventListener('change', function (event) {
+            fontWeight = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var fontFamily = 'Monaco';
+          document.querySelector('#fontFamily').addEventListener('change', function (event) {
+            fontFamily = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var fontSize = 50;
+          document.querySelector('#fontSize').addEventListener('change', function (event) {
+            fontSize = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
           drawScreen(ctx, width, height);
 
           /**
@@ -87,7 +168,7 @@
             ctx.save();
             ctx.clearRect(0, 0, width, height);
 
-            ctx.font = '50px Monaco';
+            ctx.font = fontStyle + ' ' + fontVariant + ' ' + fontWeight + ' ' + fontSize + 'px ' + fontFamily;
             ctx.textBaseline = 'middle';
 
             // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
