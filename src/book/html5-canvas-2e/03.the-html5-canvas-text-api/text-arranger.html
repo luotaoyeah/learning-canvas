@@ -70,9 +70,16 @@
             ctx.save();
             ctx.clearRect(0, 0, width, height);
 
-            ctx.font = 'italic small-caps bold 50px/50px Monaco';
+            ctx.font = '50px Monaco';
             ctx.strokeStyle = '#ff0000';
-            ctx.strokeText(message, 100, 100);
+
+            // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
+            var metrics = ctx.measureText(message);
+            var textWidth = metrics.width;
+            var xPosition = width / 2 - textWidth / 2;
+            var yPositon = height / 2;
+
+            ctx.strokeText(message, xPosition, yPositon);
 
             {
               // 网格背景
