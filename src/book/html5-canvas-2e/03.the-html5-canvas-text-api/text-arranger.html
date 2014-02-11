@@ -88,6 +88,13 @@
               </select>
             </label>
           </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Text Color: </span>
+              <input id="fontColor" type="color" value="#ff0000" />
+            </label>
+          </div>
         </form>
       </div>
     </div>
@@ -155,6 +162,12 @@
             drawScreen(ctx, width, height);
           });
 
+          var fontColor = '#ff0000';
+          document.querySelector('#fontColor').addEventListener('change', function (event) {
+            fontColor = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
           drawScreen(ctx, width, height);
 
           /**
@@ -179,15 +192,15 @@
 
             switch (fillOrStroke) {
               case 'fill':
-                ctx.fillStyle = '#ff0000';
+                ctx.fillStyle = fontColor;
                 ctx.fillText(message, xPosition, yPositon);
                 break;
               case 'stroke':
-                ctx.strokeStyle = '#ff0000';
+                ctx.strokeStyle = fontColor;
                 ctx.strokeText(message, xPosition, yPositon);
                 break;
               case 'both':
-                ctx.fillStyle = '#ff0000';
+                ctx.fillStyle = fontColor;
                 ctx.fillText(message, xPosition, yPositon);
                 ctx.strokeStyle = '#000000';
                 ctx.strokeText(message, xPosition, yPositon);
