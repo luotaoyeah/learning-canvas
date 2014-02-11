@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>03-02-01</title>
+    <title>03.02.01</title>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px;height: 600px;"></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
       /*
@@ -15,11 +15,11 @@
        */
       window.addEventListener(
         'load',
-        function() {
+        function () {
           var canvas = document.getElementById('canvas01');
           if (canvas && canvas.getContext) {
             var ratio = window.devicePixelRatio;
-            var ctx = (function(canvas) {
+            var ctx = (function (canvas) {
               var dpr = ratio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
@@ -36,23 +36,38 @@
 
           /**
            *
+           * ctx.font 用来设置字体.
+           *  包含六个字体相关属性: font-style font-variant font-weight font-size/line-height font-family
+           *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#000000';
-            ctx.beginPath();
-            ctx.strokeRect(0, 0, width, height);
-
-            /*
-             * context.font 属性，默认的字体是：10px sans-serif
-             */
+            ctx.font = 'italic small-caps bold 50px/50px Monaco';
             ctx.strokeStyle = '#ff0000';
-            ctx.textBaseline = 'bottom';
-            ctx.textAlign = 'right';
-            ctx.font = "100px Monaco";
-            ctx.strokeText('HTML5', width, height);
+            ctx.strokeText('Html', 100, 100);
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
           }
         },
         false,
