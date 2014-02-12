@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>03.08</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          var ratio = window.devicePixelRatio;
+          var ctx = (function (canvas) {
+            var dpr = ratio || 1;
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas);
+          var width = canvas.width / (ratio || 1);
+          var height = canvas.height / (ratio || 1);
+
+          var forward = true;
+          var offset = 0;
+          drawScreen(ctx, width, height);
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            window.requestAnimationFrame(drawScreen.bind(null, ctx, width, height));
+
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.font = 'bold 50px/50px Monaco';
+
+            if (forward) {
+              offset += 0.01;
+              if (offset >= 1) {
+                offset = 0;
+                forward = false;
+              }
+            } else {
+              offset -= 0.01;
+              if (offset <= 0) {
+                offset = 0;
+                forward = true;
+              }
+            }
+
+            var metrics = ctx.measureText('HTML5 Canvas');
+            var gradient = ctx.createLinearGradient(width / 2 - metrics.width / 2, 0, width / 2 + metrics.width / 2, height / 2);
+            gradient.addColorStop(0, '#ff00ff');
+            gradient.addColorStop(offset, '#ffff00');
+
+            ctx.fillStyle = gradient;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('HTML5 Canvas', width / 2, height / 2);
+
+            {
+              ctx.restore();
+              ctx.save();
+
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
