@@ -121,8 +121,36 @@
 
           <div>
             <label>
-              <span style="display: inline-block; width: 200px">Text Alpha: </span>
+              <span style="display: inline-block; width: 200px">Alpha: </span>
               <input id="textAlpha" max="1" min="0" step="0.01" type="range" value="1" />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Shadow Color: </span>
+              <input id="shadowColor" type="color" value="#000000" />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Shadow Blur: </span>
+              <input id="shadowBlur" max="10" min="0" step="1" type="range" value="0" />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Shadow OffsetX: </span>
+              <input id="shadowOffsetX" max="10" min="0" step="1" type="range" value="0" />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <span style="display: inline-block; width: 200px">Shadow OffsetY: </span>
+              <input id="shadowOffsetY" max="10" min="0" step="1" type="range" value="0" />
             </label>
           </div>
         </form>
@@ -216,6 +244,30 @@
             drawScreen(ctx, width, height);
           });
 
+          var shadowColor = '#000000';
+          document.querySelector('#shadowColor').addEventListener('change', function (event) {
+            shadowColor = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var shadowBlur = 0;
+          document.querySelector('#shadowBlur').addEventListener('input', function (event) {
+            shadowBlur = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var shadowOffsetX = 0;
+          document.querySelector('#shadowOffsetX').addEventListener('input', function (event) {
+            shadowOffsetX = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var shadowOffsetY = 0;
+          document.querySelector('#shadowOffsetY').addEventListener('input', function (event) {
+            shadowOffsetY = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
           drawScreen(ctx, width, height);
 
           /**
@@ -234,6 +286,10 @@
             ctx.textAlign = textAlign;
             // 文字垂直对齐方式, 相对于文本的 y 坐标对齐
             ctx.textBaseline = textBaseline;
+            ctx.shadowColor = shadowColor;
+            ctx.shadowBlur = shadowBlur;
+            ctx.shadowOffsetX = shadowOffsetX;
+            ctx.shadowOffsetY = shadowOffsetY;
 
             // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
             var metrics = ctx.measureText(message);
@@ -258,8 +314,11 @@
                 ctx.strokeText(message, xPosition, yPositon);
                 break;
             }
-            ctx.globalAlpha = 1;
 
+            ctx.restore();
+            ctx.save();
+
+            ctx.globalAlpha = 1;
             ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
 
             ctx.beginPath();
@@ -273,6 +332,8 @@
             ctx.stroke();
 
             {
+              ctx.restore();
+              ctx.save();
               // 网格背景
               ctx.lineWidth = 0.2;
               ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
