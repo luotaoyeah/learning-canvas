@@ -27,12 +27,13 @@
           var height = canvas.height / (ratio || 1);
 
           var image = new Image();
-          image.src = '../../../../../assets/spaceship.png';
+          image.src = '../../../../../assets/ship.png';
           image.addEventListener('load', function () {
             drawScreen(ctx, width, height);
           });
 
           /**
+           * 指定图片绘制在画布上的坐标和尺寸.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
