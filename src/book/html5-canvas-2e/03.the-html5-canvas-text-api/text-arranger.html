@@ -30,6 +30,18 @@
 
           <div>
             <label>
+              <span style="display: inline-block; width: 200px">Fill Type:</span>
+              <select id="fillType">
+                <option selected value="colorFill">Color Fill</option>
+                <option value="linearGradient">Linear Gradient</option>
+                <option value="radialGradient">Radial Gradient</option>
+                <option value="pattern">Pattern</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
               <span style="display: inline-block; width: 200px">Fill Or Stroke: </span>
               <select id="fillOrStroke">
                 <option value="fill">fill</option>
@@ -268,6 +280,15 @@
             drawScreen(ctx, width, height);
           });
 
+          var fillType = 'colorFill';
+          document.querySelector('#fillType').addEventListener('change', function (event) {
+            fillType = event.target.value;
+            drawScreen(ctx, width, height);
+          });
+
+          var pattern = new Image();
+          pattern.src = '../../../assets/01.png';
+
           drawScreen(ctx, width, height);
 
           /**
@@ -297,18 +318,45 @@
             var xPosition = width / 2;
             var yPositon = height / 2;
 
+            var tempColor = '';
+
+            switch (fillType) {
+              case 'colorFill':
+                tempColor = fontColor;
+                break;
+              case 'linearGradient':
+                {
+                  var gradient01 = ctx.createLinearGradient(width / 2, 0, width / 2 + textWidth, 0);
+                  gradient01.addColorStop(0, '#00ff00');
+                  gradient01.addColorStop(1, '#0000ff');
+                  tempColor = gradient01;
+                }
+                break;
+              case 'radialGradient':
+                {
+                  var gradient02 = ctx.createRadialGradient(xPosition, yPositon, 2, xPosition, yPositon, textWidth / 2);
+                  gradient02.addColorStop(0, '#00ff00');
+                  gradient02.addColorStop(1, '#0000ff');
+                  tempColor = gradient02;
+                }
+                break;
+              case 'pattern':
+                tempColor = ctx.createPattern(pattern, 'repeat');
+                break;
+            }
+
             ctx.globalAlpha = textAlpha;
             switch (fillOrStroke) {
               case 'fill':
-                ctx.fillStyle = fontColor;
+                ctx.fillStyle = tempColor;
                 ctx.fillText(message, xPosition, yPositon);
                 break;
               case 'stroke':
-                ctx.strokeStyle = fontColor;
+                ctx.strokeStyle = tempColor;
                 ctx.strokeText(message, xPosition, yPositon);
                 break;
               case 'both':
-                ctx.fillStyle = fontColor;
+                ctx.fillStyle = tempColor;
                 ctx.fillText(message, xPosition, yPositon);
                 ctx.strokeStyle = '#000000';
                 ctx.strokeText(message, xPosition, yPositon);
