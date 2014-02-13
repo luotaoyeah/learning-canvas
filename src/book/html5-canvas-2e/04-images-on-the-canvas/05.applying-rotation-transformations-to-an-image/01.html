@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>04.05</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          var ratio = window.devicePixelRatio;
+          var ctx = (function (canvas) {
+            var dpr = ratio || 1;
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas);
+          var width = canvas.width / (ratio || 1);
+          var height = canvas.height / (ratio || 1);
+
+          var tileSheet = new Image();
+          tileSheet.src = '../../../../assets/tanks-sheet.png';
+          tileSheet.addEventListener('load', function () {
+            drawScreen(ctx, width, height);
+          });
+
+          var animationFrames = [1, 2, 3, 4, 5, 6, 7, 8];
+          var frameIndex = 0;
+          var x = 50;
+          var y = height - 50;
+          var direction = 'up';
+
+          /**
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            window.requestAnimationFrame(drawScreen.bind(null, ctx, width, height));
+
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            var sourceX = Math.floor(animationFrames[frameIndex] % 8) * 32;
+            var sourceY = Math.floor(animationFrames[frameIndex] / 8) * 32;
+
+            switch (direction) {
+              case 'up':
+                {
+                  y -= 5;
+                  if (y <= 50) {
+                    y = 50;
+                    direction = 'right';
+                  }
+
+                  ctx.translate(x + 16, y + 16);
+                  ctx.rotate(0 * (Math.PI / 180));
+                }
+                break;
+              case 'right':
+                {
+                  x += 5;
+                  if (x >= width - 50 - 32) {
+                    x = width - 50 - 32;
+                    direction = 'down';
+                  }
+
+                  ctx.translate(x + 16, y + 16);
+                  ctx.rotate(90 * (Math.PI / 180));
+                }
+                break;
+              case 'down':
+                {
+                  y += 5;
+                  if (y >= height - 50 - 32) {
+                    y = height - 50 - 32;
+                    direction = 'left';
+                  }
+
+                  ctx.translate(x + 16, y + 16);
+                  ctx.rotate(180 * (Math.PI / 180));
+                }
+                break;
+              case 'left':
+                {
+                  x -= 5;
+                  if (x <= 50) {
+                    x = 50;
+                    direction = 'up';
+                  }
+
+                  ctx.translate(x + 16, y + 16);
+                  ctx.rotate(270 * (Math.PI / 180));
+                }
+                break;
+            }
+
+            ctx.drawImage(tileSheet, sourceX, sourceY, 32, 32, -16, -16, 32, 32);
+
+            frameIndex += 1;
+            if (frameIndex >= animationFrames.length) {
+              frameIndex = 0;
+            }
+
+            {
+              ctx.restore();
+              ctx.save();
+
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
