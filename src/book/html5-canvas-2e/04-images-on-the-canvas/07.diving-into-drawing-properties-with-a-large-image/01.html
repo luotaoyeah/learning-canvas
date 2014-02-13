@@ -32,8 +32,8 @@
             drawScreen(ctx, width, height);
           });
 
-          var windowX = 0;
-          var windowY = 0;
+          var windowX = 1580;
+          var windowY = 1190;
           var windowWidth = 500;
           var windowHeight = 500;
           var viewPortWidth = 500;
@@ -49,7 +49,7 @@
             ctx.save();
             ctx.clearRect(0, 0, width, height);
 
-            ctx.drawImage(photo, windowX, windowY, windowWidth, windowHeight, 0, 0, viewPortWidth, viewPortHeight);
+            ctx.drawImage(photo, windowX, windowY, windowWidth * 2, windowHeight * 2, 0, 0, viewPortWidth, viewPortHeight);
 
             {
               ctx.restore();
