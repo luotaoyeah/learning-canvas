@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>04.10</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
+
+          var blueObject = {};
+          blueObject.x = 0;
+          blueObject.y = 1;
+          blueObject.dx = 1;
+          blueObject.width = 48;
+          blueObject.height = 48;
+          blueObject.image = new Image();
+          blueObject.image.src = '../../../../assets/blueplus.png';
+          blueObject.image.addEventListener('load', function () {
+            // 由于 ImageData 不受 transform 影响, 因此在操作之前先将画布恢复到元素尺寸
+            canvas.width = width;
+            ctx.scale(1, 1);
+
+            ctx.drawImage(blueObject.image, 0, 0);
+            blueObject.blueImageData = ctx.getImageData(0, 0, blueObject.width, blueObject.height);
+
+            canvas.width = width * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, blueObject.width, blueObject.height);
+          });
+
+          var redObject = {};
+          redObject.x = 100;
+          redObject.y = 1;
+          redObject.dx = -1;
+          redObject.width = 48;
+          redObject.height = 48;
+          redObject.image = new Image();
+          redObject.image.src = '../../../../assets/redcircle.png';
+          redObject.image.addEventListener('load', function () {
+            canvas.width = width;
+            ctx.scale(1, 1);
+
+            ctx.drawImage(redObject.image, 0, 0);
+            redObject.redImageData = ctx.getImageData(0, 0, redObject.width, redObject.height);
+
+            canvas.width = width * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, redObject.width, redObject.height);
+          });
+
+          drawScreen(ctx, width, height);
+
+          /**
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            blueObject.x += blueObject.dx;
+            redObject.x += redObject.dx;
+
+            ctx.drawImage(blueObject.image, blueObject.x, blueObject.y);
+            ctx.strokeStyle = '#0000ff';
+            ctx.strokeRect(blueObject.x, blueObject.y, blueObject.width, blueObject.height);
+
+            ctx.drawImage(redObject.image, redObject.x, redObject.y);
+            ctx.strokeStyle = '#ff0000';
+            ctx.strokeRect(redObject.x, redObject.y, redObject.width, redObject.height);
+
+            var isCollide = false;
+            // 判断像素是否重叠
+            if (boundingBoxCollide(blueObject, redObject)) {
+              // 获取相交区域左上角和右下角的坐标
+              var xMin = Math.max(blueObject.x, redObject.x);
+              var yMin = Math.max(blueObject.y, redObject.y);
+              var xMax = Math.min(blueObject.x + blueObject.width, redObject.x + redObject.width);
+              var yMax = Math.min(blueObject.y + blueObject.height, redObject.y + redObject.height);
+
+              // 判断相交区域中每一个像素, 两个对象在这个像素上是否都有数据
+              for (var pixelX = xMin; pixelX < xMax; pixelX++) {
+                if (!isCollide) {
+                  for (var pixelY = yMin; pixelY < yMax; pixelY++) {
+                    if (!isCollide) {
+                      var bluePixel = (pixelX - blueObject.x + (pixelY - blueObject.y) * blueObject.width) * 4 + 3;
+                      var redPixel = (pixelX - redObject.x + (pixelY - redObject.y) * redObject.width) * 4 + 3;
+                      if (blueObject.blueImageData.data[bluePixel] !== 0 && redObject.redImageData.data[redPixel] !== 0) {
+                        isCollide = true;
+                        console.log(blueObject.blueImageData.data[bluePixel], redObject.redImageData.data[redPixel]);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            if (!isCollide) {
+              window.setTimeout(drawScreen.bind(null, ctx, width, height), 100);
+            }
+
+            {
+              ctx.restore();
+              ctx.save();
+
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+
+          /**
+           * 判断两个对象的边界线框是否碰撞.
+           *
+           * @param object01
+           * @param object02
+           * @returns {boolean}
+           */
+          function boundingBoxCollide(object01, object02) {
+            var top01 = object01.y;
+            var bottom01 = object01.y + object01.height;
+            var left01 = object01.x;
+            var right01 = object01.x + object01.width;
+
+            var top02 = object02.y;
+            var bottom02 = object02.y + object02.height;
+            var left02 = object02.x;
+            var right02 = object02.x + object02.width;
+
+            if (bottom01 < top02) {
+              return false;
+            }
+            if (bottom02 < top01) {
+              return false;
+            }
+            if (right01 < left02) {
+              return false;
+            }
+            if (right02 < left01) {
+              return false;
+            }
+
+            return true;
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
