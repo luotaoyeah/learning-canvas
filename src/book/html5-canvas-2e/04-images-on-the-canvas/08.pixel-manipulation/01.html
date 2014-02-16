@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>04.08</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 256px; height: 256px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          var ratio = window.devicePixelRatio;
+          var ctx = (function (canvas) {
+            var dpr = ratio || 1;
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas);
+          var width = canvas.width / (ratio || 1);
+          var height = canvas.height / (ratio || 1);
+
+          var tileSheet = new Image();
+          tileSheet.src = '../../../../assets/tanks-sheet.png';
+          tileSheet.addEventListener('load', function () {
+            drawScreen(ctx, width, height);
+          });
+
+          var mouseX;
+          var mouseY;
+          // createImageData() 不受 transformation 影响, 需要考虑 window.devicePixelRatio
+          var imageData = ctx.createImageData(32 * window.devicePixelRatio, 32 * window.devicePixelRatio);
+
+          canvas.addEventListener('click', function (event) {
+            mouseX = event.clientX - canvas.offsetLeft;
+            mouseY = event.clientY - canvas.offsetTop;
+
+            console.log(mouseX, mouseY);
+
+            if (mouseY < height / 2) {
+              var col = Math.floor(mouseX / 32);
+              var row = Math.floor(mouseY / 32);
+              var tileId = row * 8 + col;
+              highlightTile(tileId, col * 32, row * 32);
+            } else {
+              var col = Math.floor(mouseX / 32);
+              var row = Math.floor(mouseY / 32);
+              // putImageData() 不受 transformation 影响, 需要考虑 window.devicePixelRatio
+              ctx.putImageData(imageData, col * 32 * window.devicePixelRatio, row * 32 * window.devicePixelRatio);
+            }
+          });
+
+          function highlightTile(tileId, x, y) {
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height / 2);
+
+            ctx.drawImage(tileSheet, 0, 0);
+            // getImageData() 不受 transformation 影响, 需要考虑 window.devicePixelRatio
+            imageData = ctx.getImageData(x * window.devicePixelRatio, y * window.devicePixelRatio, 32 * window.devicePixelRatio, 32 * window.devicePixelRatio);
+
+            ctx.strokeStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.strokeRect(x, y, 32, 32);
+
+            for (var i = 3; i < imageData.data.length; i += 4) {
+              imageData.data[i] = 128;
+            }
+          }
+
+          /**
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.drawImage(tileSheet, 0, 0);
+
+            {
+              ctx.restore();
+              ctx.save();
+
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 32; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 32);
+                ctx.lineTo(width, i * 32);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 32; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 32, 0);
+                ctx.lineTo(j * 32, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
