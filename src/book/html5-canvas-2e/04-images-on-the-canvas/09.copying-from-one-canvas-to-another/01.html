@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>04.09</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <div><canvas id="canvas01" style="width: 256px; height: 128px"></canvas></div>
+      <div><canvas id="canvas02" style="width: 32px; height: 32px; margin-top: 32px"></canvas></div>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+
+          var canvas01 = document.getElementById('canvas01');
+          var ctx01 = (function (canvas) {
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas01);
+          var width01 = canvas01.width / dpr;
+          var height01 = canvas01.height / dpr;
+
+          var canvas02 = document.getElementById('canvas02');
+          var ctx02 = (function (canvas) {
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            var ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return ctx;
+          })(canvas02);
+
+          var tileSheet = new Image();
+          tileSheet.src = '../../../../assets/tanks-sheet.png';
+          tileSheet.addEventListener('load', function () {
+            drawScreen(ctx01, width01, height01);
+
+            ctx02.restore();
+            ctx02.save();
+            // 绘制图片时, 可以用另外一个 canvas 画布作为图源
+            ctx02.drawImage(canvas01, 32 * dpr, 0, 32 * dpr, 32 * dpr, 0, 0, 32, 32);
+          });
+
+          /**
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+
+            ctx.drawImage(tileSheet, 0, 0);
+
+            {
+              ctx.restore();
+              ctx.save();
+
+              // 网格背景
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 32; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 32);
+                ctx.lineTo(width, i * 32);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 32; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 32, 0);
+                ctx.lineTo(j * 32, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>

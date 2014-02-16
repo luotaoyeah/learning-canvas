@@ -21,6 +21,8 @@
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
+
           var canvas = document.getElementById('canvas01');
 
           /*
@@ -37,7 +39,6 @@
 
           drawScreen(
             (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width * dpr;
               canvas.height = rect.height * dpr;
@@ -45,8 +46,8 @@
               ctx.scale(dpr, dpr);
               return ctx;
             })(canvas),
-            canvas.width / (window.devicePixelRatio || 1),
-            canvas.height / (window.devicePixelRatio || 1),
+            canvas.width / dpr,
+            canvas.height / dpr,
           );
 
           /**

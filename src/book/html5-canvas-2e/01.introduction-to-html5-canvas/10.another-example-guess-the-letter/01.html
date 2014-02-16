@@ -17,9 +17,10 @@
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
+
           var canvas = document.getElementById('canvas01');
           var ctx = (function (canvas) {
-            var dpr = window.devicePixelRatio || 1;
             var rect = canvas.getBoundingClientRect();
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
@@ -27,8 +28,8 @@
             ctx.scale(dpr, dpr);
             return ctx;
           })(canvas);
-          var width = canvas.width / (window.devicePixelRatio || 1);
-          var height = canvas.height / (window.devicePixelRatio || 1);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
           var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
           /* 总共猜了多少次 */
