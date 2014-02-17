@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>05.01.02</title>
+    <title>05.02.01</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -22,7 +22,7 @@
           var width = canvas.width / (dpr || 1);
           var height = canvas.height / (dpr || 1);
 
-          var speed = 5;
+          var speed = 10;
           var angle = 45;
           var radian = angle * (Math.PI / 180);
           var ball = { x: 50, y: 50 };
@@ -30,13 +30,18 @@
           var xunits = Math.cos(radian) * speed;
           // y 轴每次移动的距离
           var yunits = Math.sin(radian) * speed;
-          // 所有走过的点的坐标
-          var points = [{ x: ball.x, y: ball.y }];
-
-          var pointImage = new Image();
-          pointImage.src = '../../../../..//assets/point.png';
+          var radius = 25;
 
           drawScreen(ctx, width, height);
+
+          /**
+           * 角度变更之后, 重新计算弧度/横轴移动速度/纵轴移动速度.
+           */
+          function updateBall() {
+            radian = angle * (Math.PI / 180);
+            xunits = speed * Math.cos(radian);
+            yunits = speed * Math.sin(radian);
+          }
 
           /**
            *
@@ -51,20 +56,23 @@
             ctx.save();
             ctx.clearRect(0, 0, width, height);
 
-            if (ball.y < height - 50 - yunits) {
-              ball.x += xunits;
-              ball.y += yunits;
-              points.push({ x: ball.x, y: ball.y });
+            ball.x += xunits;
+            ball.y += yunits;
+
+            if (ball.x <= radius || ball.x > width - radius) {
+              // 碰到左右边界, 根据光的反射定理, 重新计算角度
+              angle = 180 - angle;
+              updateBall();
+            } else if (ball.y <= radius || ball.y >= height - radius) {
+              // 碰到上下边界, 根据光的反射定理, 重新计算角度
+              angle = 360 - angle;
+              updateBall();
             }
 
             ctx.fillStyle = '#ff0000';
             ctx.beginPath();
-            ctx.arc(ball.x, ball.y, 25, 0, 360 * (Math.PI / 180));
+            ctx.arc(ball.x, ball.y, radius, 0, 360 * (Math.PI / 180));
             ctx.fill();
-
-            for (var k = 0; k < points.length; k++) {
-              ctx.drawImage(pointImage, points[k].x, points[k].y);
-            }
 
             {
               // 网格背景
