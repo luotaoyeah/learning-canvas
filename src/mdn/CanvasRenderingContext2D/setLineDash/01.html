@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CanvasRenderingContext2D.setLineDash()</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / (dpr || 1);
+          var height = canvas.height / (dpr || 1);
+
+          drawScreen(ctx, width, height);
+
+          /**
+           * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(50, 50);
+            ctx.lineTo(width - 50, 50);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            // 参数数组中的元素, 为"线段长度/空白长度"交替出现,
+            // 因此如果元素数量为奇数, 为了满足这个交替规则, 会自动复制所有元素, 然后加到数组最后面去,
+            // [15, 5, 10] 就会变成 [15, 5, 10, 15, 5, 10]
+            ctx.setLineDash([15, 5, 10]);
+            ctx.beginPath();
+            ctx.moveTo(50, 100);
+            ctx.lineTo(width - 50, 100);
+            ctx.stroke();
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
