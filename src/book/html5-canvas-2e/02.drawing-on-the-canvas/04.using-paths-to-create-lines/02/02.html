@@ -3,11 +3,110 @@
   <head>
     <meta charset="UTF-8" />
     <title>02.04.02</title>
-    <script src="02.js"></script>
   </head>
   <body>
     <div style="text-align: center">
-      <canvas id="canvas01" style="width: 1000px; height: 600px; "></canvas>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
+
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var canvas = document.getElementById('canvas01');
+          if (canvas && canvas.getContext) {
+            var ctx = (function (canvas) {
+              var dpr = window.devicePixelRatio || 1;
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * dpr;
+              canvas.height = rect.height * dpr;
+              var ctx = canvas.getContext('2d');
+              ctx.scale(dpr, dpr);
+              return ctx;
+            })(canvas);
+            var width = canvas.width / (window.devicePixelRatio || 1);
+            var height = canvas.height / (window.devicePixelRatio || 1);
+
+            drawScreen(ctx, width, height);
+          }
+
+          /**
+           * lineJoin 属性, 用于设置线条拐点的样式,
+           * 可选值为：
+           *     miter  斜接, 显示一个三角形的尖尖
+           *     bevel  斜切, 显示一个斜切面
+           *     round  圆弧, 显示一个圆弧
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.lineWidth = 50;
+
+            ctx.lineJoin = 'miter';
+            ctx.beginPath();
+            ctx.moveTo(100, 100);
+            ctx.lineTo(200, 100);
+            ctx.lineTo(100, 200);
+            ctx.stroke();
+
+            // miterLimit 用来设置最大斜接长度,
+            // 斜接长度: 指的是在两条线交汇处内角和外角之间的距离跟 lineWidth 的比率,
+            // 如果斜接长度超过 miterLimit 的值, lineJoin 会以 bevel 的形式来显示.
+            ctx.lineJoin = 'miter';
+            ctx.miterLimit = 2;
+            ctx.beginPath();
+            ctx.moveTo(100, 300);
+            ctx.lineTo(200, 300);
+            ctx.lineTo(100, 400);
+            ctx.stroke();
+
+            ctx.lineJoin = 'bevel';
+            ctx.beginPath();
+            ctx.moveTo(300, 100);
+            ctx.lineTo(400, 100);
+            ctx.lineTo(300, 200);
+            ctx.stroke();
+
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(500, 100);
+            ctx.lineTo(600, 100);
+            ctx.lineTo(500, 200);
+            ctx.stroke();
+
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ff0000';
+
+            ctx.beginPath();
+            ctx.arc(600, 100, 25, 0, 360 * (Math.PI / 180));
+            ctx.stroke();
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.lineWidth = 1;
+              ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
   </body>
 </html>
