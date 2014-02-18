@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>05.02.02</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / (dpr || 1);
+          var height = canvas.height / (dpr || 1);
+
+          var numBalls = 100;
+          var maxSize = 8;
+          var minSize = 5;
+          var maxSpeed = maxSize + 5;
+
+          var balls = [];
+
+          for (var i = 0; i < numBalls; i++) {
+            var tempRadius = Math.floor(Math.random() * maxSize) + minSize;
+            var tempX = Math.floor(Math.random() * width);
+            var tempY = Math.floor(Math.random() * height);
+            var tempSpeed = maxSpeed - tempRadius;
+            var tempAngle = Math.floor(Math.random() * 360);
+            var tempRadian = tempAngle * (Math.PI / 180);
+
+            balls.push({
+              x: tempX,
+              y: tempY,
+              radius: tempRadius,
+              speed: tempSpeed,
+              angle: tempAngle,
+              radian: tempRadian,
+              xunits: Math.cos(tempRadian) * tempSpeed,
+              yunits: Math.sin(tempRadian) * tempSpeed,
+            });
+          }
+
+          drawScreen(ctx, width, height);
+
+          /**
+           * 角度变更之后, 重新计算弧度/横轴移动速度/纵轴移动速度.
+           */
+          function updateBall(ball) {
+            ball.radian = ball.angle * (Math.PI / 180);
+            ball.xunits = ball.speed * Math.cos(ball.radian);
+            ball.yunits = ball.speed * Math.sin(ball.radian);
+          }
+
+          /**
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            window.requestAnimationFrame(drawScreen.bind(null, ctx, width, height));
+
+            ctx.restore();
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            for (var ball of balls) {
+              ball.x += ball.xunits;
+              ball.y += ball.yunits;
+
+              if (ball.x <= ball.radius || ball.x > width - ball.radius) {
+                // 碰到左右边界, 根据光的反射定理, 重新计算角度
+                ball.angle = 180 - ball.angle;
+                updateBall(ball);
+              } else if (ball.y <= ball.radius || ball.y >= height - ball.radius) {
+                // 碰到上下边界, 根据光的反射定理, 重新计算角度
+                ball.angle = 360 - ball.angle;
+                updateBall(ball);
+              }
+
+              ctx.fillStyle = '#ff0000';
+              ctx.beginPath();
+              ctx.arc(ball.x, ball.y, ball.radius, 0, 360 * (Math.PI / 180));
+              ctx.fill();
+            }
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
