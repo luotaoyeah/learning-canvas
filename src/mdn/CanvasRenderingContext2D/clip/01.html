@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CanvasRenderingContext2D.clip()</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / (dpr || 1);
+          var height = canvas.height / (dpr || 1);
+
+          drawScreen(ctx, width, height);
+
+          /**
+           * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
+           *
+           * 如果一个图形的边线有交叉, 则图形会被分割成很多区域,
+           * 当我们在用 clip() 裁剪时, 这些区域中哪些属于裁剪区域, 哪些不属于裁剪区域,
+           * 我们可以通过不同的 fillRule 来配置, fillRule 可以为 nonzero/evenodd
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function drawScreen(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+
+            var path01 = new Path2D();
+            path01.rect(100, 100, 50, 150);
+            path01.rect(50, 150, 150, 50);
+            ctx.clip(path01, 'nonzero');
+
+            ctx.fillStyle = 'rgba(0, 0, 255, 1)';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.restore();
+            ctx.save();
+
+            var path02 = new Path2D();
+            path02.rect(850, 100, 50, 150);
+            path02.rect(800, 150, 150, 50);
+            ctx.clip(path02, 'evenodd');
+
+            ctx.fillStyle = 'rgba(0, 0, 255, 1)';
+            ctx.fillRect(0, 0, width, height);
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
