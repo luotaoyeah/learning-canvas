@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>drawing-a-triangle</title>
+    <title>moving-the-pen</title>
   </head>
   <body>
     <div style="text-align: center">
       <p>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#drawing_a_triangle">
-          https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#drawing_a_triangle
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#moving_the_pen">
+          https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#moving_the_pen
         </a>
       </p>
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
@@ -30,6 +30,7 @@
           draw(ctx, width, height);
 
           /**
+           * moveTo() 将画笔移动到指定的坐标点, 开始一个新的 sub-path.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
@@ -37,13 +38,19 @@
            */
           function draw(ctx, width, height) {
             ctx.beginPath();
-            ctx.moveTo(50, 200);
-            ctx.lineTo(150, 300);
-            ctx.lineTo(150, 100);
-            /*
-             * 调用 fill() 时, 未闭合的路径会自动闭合(closePath).
-             */
-            ctx.fill();
+
+            ctx.arc(500, 300, 200, 0, 360 * (Math.PI / 180));
+
+            ctx.moveTo(400, 250);
+            ctx.arc(400, 250, 25, 0, 360 * (Math.PI / 180));
+
+            ctx.moveTo(600, 250);
+            ctx.arc(600, 250, 25, 0, 360 * (Math.PI / 180));
+
+            ctx.moveTo(500, 300);
+            ctx.arc(500, 300, 150, 0, 180 * (Math.PI / 180));
+
+            ctx.stroke();
 
             {
               // 网格背景
