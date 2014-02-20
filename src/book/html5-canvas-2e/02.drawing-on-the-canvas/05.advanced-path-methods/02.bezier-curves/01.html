@@ -17,27 +17,22 @@
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            var ctx = (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width * dpr;
-              canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext('2d');
-              ctx.scale(dpr, dpr);
-              return ctx;
-            })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
            * canvas 中的贝塞尔曲线有两种形式:
            *     二次的, context.quadraticCurveTo(), 只有一个控制点,
-           *     三次的, context.bezierCurveTo(), 有两个控制点
+           *     三次的, context.bezierCurveTo(), 有两个控制点.
            *
            * https://www.jasondavies.com/animated-bezier/
            *
@@ -83,8 +78,11 @@
             animate(ctx);
 
             {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
               ctx.lineWidth = 0.2;
-              ctx.strokeStyle = '#ff0000';
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 
               for (var i = 0; i <= height / 50; i++) {
                 ctx.beginPath();
@@ -143,8 +141,11 @@
             ctx.stroke();
 
             {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
               ctx.lineWidth = 0.2;
-              ctx.strokeStyle = '#ff0000';
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 
               for (var i = 7; i <= height / 50; i++) {
                 ctx.beginPath();
