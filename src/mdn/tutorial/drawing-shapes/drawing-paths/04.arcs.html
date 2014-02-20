@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>arcs</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <p>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#arcs">
+          https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#arcs
+        </a>
+      </p>
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
+
+          draw(ctx, width, height);
+
+          /**
+           * arc() 绘制弧线.
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function draw(ctx, width, height) {
+            for (var i = 0; i < 4; i++) {
+              for (var j = 0; j < 3; j++) {
+                ctx.beginPath();
+                var x = 50 + 150 * j;
+                var y = 50 + 150 * i;
+                var endAngle = Math.PI + (Math.PI * j) / 2;
+                var anticlockwise = i % 2 !== 0;
+                ctx.arc(x, y, 50, 0, endAngle, anticlockwise);
+
+                if (i > 1) {
+                  ctx.fill();
+                } else {
+                  ctx.stroke();
+                }
+              }
+            }
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
