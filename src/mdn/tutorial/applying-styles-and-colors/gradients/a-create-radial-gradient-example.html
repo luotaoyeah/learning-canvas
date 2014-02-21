@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>a-create-radial-gradient-example</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
+    </div>
+    <script>
+      window.addEventListener(
+        'load',
+        function () {
+          var dpr = window.devicePixelRatio || 1;
+          var canvas = document.getElementById('canvas01');
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
+
+          draw(ctx, width, height);
+
+          /**
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_createradialgradient_example
+           *
+           * @param {CanvasRenderingContext2D} ctx
+           * @param width
+           * @param height
+           */
+          function draw(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
+
+            // 外圆应该整个包含内圆, 否则会有意料之外的渲染效果
+            var gradient01 = ctx.createRadialGradient(600, 300, 50, 500, 300, 200);
+            gradient01.addColorStop(0.1, '#ff0000');
+            gradient01.addColorStop(0.6, '#0000ff');
+            // 可以将终点的颜色设为透明, 防止颜色往外扩散
+            gradient01.addColorStop(1, 'rgba(0,0,0,0)');
+
+            ctx.fillStyle = gradient01;
+            ctx.fillRect(0, 0, 1000, 600);
+
+            ctx.strokeStyle = '#000000';
+            ctx.arc(500, 300, 200, 0, 360 * (Math.PI / 180));
+            ctx.stroke();
+
+            {
+              // 网格背景
+              ctx.restore();
+              ctx.save();
+              ctx.lineWidth = 0.2;
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+
+              for (var i = 0; i <= height / 50; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * 50);
+                ctx.lineTo(width, i * 50);
+                ctx.stroke();
+              }
+
+              for (var j = 0; j <= width / 50; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * 50, 0);
+                ctx.lineTo(j * 50, height);
+                ctx.stroke();
+              }
+            }
+          }
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>

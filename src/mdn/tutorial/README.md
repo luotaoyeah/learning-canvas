@@ -11,3 +11,4 @@
     - [A lineWidth example](applying-styles-and-colors/line-styles/a-linewidth-example.html)
   - [Gradients](applying-styles-and-colors/gradients)
     - [A createLinearGradient example](applying-styles-and-colors/gradients/a-create-linear-gradient-example.html)
+    - [A createRadialGradient example](applying-styles-and-colors/gradients/a-create-radial-gradient-example.html)
