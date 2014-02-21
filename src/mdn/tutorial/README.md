@@ -3,3 +3,4 @@
 - [Applying styles and colors](applying-styles-and-colors)
   - [colors](applying-styles-and-colors/colors)
     - [A fillStyle example](applying-styles-and-colors/colors/a-fillstyle-example.html)
+    - [A strokeStyle example](applying-styles-and-colors/colors/a-strokestyle-example.html)
