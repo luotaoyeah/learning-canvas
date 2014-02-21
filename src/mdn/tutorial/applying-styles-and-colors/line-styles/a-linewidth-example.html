@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>a-fillstyle-example</title>
+    <title>a-linewidth-example</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -25,7 +25,10 @@
           draw(ctx, width, height);
 
           /**
-           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_fillstyle_example
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_linewidth_example
+           *
+           * 因为线条笔画是有宽度的, 坐标点位于笔画的中心, 因此坐标的两边各有一半笔画.
+           * 如果线条的一半宽度不是像素的整数倍, 则线条的边缘可能会是模糊的.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
@@ -35,12 +38,18 @@
             ctx.restore();
             ctx.save();
 
-            for (var i = 0; i < 5; i++) {
-              for (var j = 0; j < 5; j++) {
-                ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * i) + ', ' + Math.floor(255 - 42.5 * j) + ', 0)';
-                ctx.fillRect(50 * (j + 1), 50 * (i + 1), 50, 50);
-              }
-            }
+            ctx.lineWidth = 39;
+
+            ctx.beginPath();
+            ctx.moveTo(25, 5);
+            ctx.lineTo(25, 45);
+            ctx.stroke();
+
+            // 为了让整根线条刚好沿像素边缘铺满像素区域, 需要适当调整坐标
+            ctx.beginPath();
+            ctx.moveTo(25.5, 55);
+            ctx.lineTo(25.5, 95);
+            ctx.stroke();
 
             {
               // 网格背景
