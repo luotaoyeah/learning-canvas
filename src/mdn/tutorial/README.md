@@ -6,3 +6,4 @@
     - [A strokeStyle example](applying-styles-and-colors/colors/a-strokestyle-example.html)
   - [Transparency](applying-styles-and-colors/transparency)
     - [A globalAlpha example](applying-styles-and-colors/transparency/a-globalalpha-example.html)
+    - [An example using rgba()](applying-styles-and-colors/transparency/an-example-using-rgba.html)
