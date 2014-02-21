@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>CanvasRenderingContext2D.setLineDash()</title>
+    <title>a-create-linear-gradient-example</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -19,41 +19,36 @@
           canvas.width = rect.width * dpr;
           canvas.height = rect.height * dpr;
           ctx.scale(dpr, dpr);
-          var width = canvas.width / (dpr || 1);
-          var height = canvas.height / (dpr || 1);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-          drawScreen(ctx, width, height);
+          draw(ctx, width, height);
 
           /**
-           * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_createlineargradient_example
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
-          function drawScreen(ctx, width, height) {
+          function draw(ctx, width, height) {
             ctx.restore();
             ctx.save();
-            ctx.clearRect(0, 0, width, height);
 
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
-            ctx.beginPath();
-            ctx.moveTo(50, 50);
-            ctx.lineTo(width - 50, 50);
-            ctx.stroke();
+            var gradient01 = ctx.createLinearGradient(0, 50, 0, 150);
+            gradient01.addColorStop(0, '#00ABEB');
+            // 同一个点添加两种颜色, 效果是两种颜色界限分明
+            gradient01.addColorStop(0.5, '#fff');
+            gradient01.addColorStop(0.5, '#26C000');
+            gradient01.addColorStop(1, '#fff');
+            ctx.fillStyle = gradient01;
+            ctx.fillRect(50, 50, 100, 100);
 
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 2;
-            // 参数数组中"线段长度/空白长度"交替出现,
-            // 因此如果元素数量为奇数, 为了满足这个交替规则, 会自动复制所有元素加到数组最后,
-            // [15, 5, 10] 就会变成 [15, 5, 10, 15, 5, 10]
-            ctx.setLineDash([15, 5, 10]);
-            ctx.beginPath();
-            ctx.moveTo(50, 100);
-            ctx.lineTo(width - 50, 100);
-            ctx.stroke();
+            var gradient02 = ctx.createLinearGradient(0, 75, 0, 125);
+            gradient02.addColorStop(0.5, '#000');
+            gradient02.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.strokeStyle = gradient02;
+            ctx.strokeRect(75, 75, 50, 50);
 
             {
               // 网格背景

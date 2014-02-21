@@ -9,3 +9,5 @@
     - [An example using rgba()](applying-styles-and-colors/transparency/an-example-using-rgba.html)
   - [Line styles](applying-styles-and-colors/line-styles)
     - [A lineWidth example](applying-styles-and-colors/line-styles/a-linewidth-example.html)
+  - [Gradients](applying-styles-and-colors/gradients)
+    - [A createLinearGradient example](applying-styles-and-colors/gradients/a-create-linear-gradient-example.html)
