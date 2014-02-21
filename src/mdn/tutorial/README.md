@@ -1,0 +1,5 @@
+- [Basic usage](basic-usage)
+- [Drawing shapes](drawing-shapes)
+- [Applying styles and colors](applying-styles-and-colors)
+  - [colors](applying-styles-and-colors/colors)
+    - [A fillStyle example](applying-styles-and-colors/colors/a-fillstyle-example.html)
