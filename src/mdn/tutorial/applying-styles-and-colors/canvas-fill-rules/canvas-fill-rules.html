@@ -2,17 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02.09</title>
+    <title>canvas-fill-rules</title>
   </head>
   <body>
     <div style="text-align: center">
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.9. Filling Shapes with Patterns
-       *     context.createPattern()
-       */
       window.addEventListener(
         'load',
         function () {
@@ -23,39 +19,38 @@
           canvas.width = rect.width * dpr;
           canvas.height = rect.height * dpr;
           ctx.scale(dpr, dpr);
-          var width = canvas.width / (dpr || 1);
-          var height = canvas.height / (dpr || 1);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-          drawScreen(ctx, width, height);
+          draw(ctx, width, height);
 
           /**
-           * pattern 图案/花样, 用图片作为笔刷的样式, 并指定重复模式.
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#canvas_fill_rules
+           *
+           * fill() / clip() / isPointInPath() 三个操作可以指定 fillRule (nonzero / evenodd), 默认为 nonzero.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
-          function drawScreen(ctx, width, height) {
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(0, 0, 320, 320);
+          function draw(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
 
-            var image = new Image();
-            image.src = '../../../../assets/01.png';
-            image.onload = function () {
-              const pattern = ctx.createPattern(image, 'repeat');
+            ctx.beginPath();
+            ctx.arc(200, 300, 50, 0, 360 * (Math.PI / 180));
+            ctx.arc(200, 300, 100, 0, 360 * (Math.PI / 180));
+            ctx.fill('nonzero');
 
-              ctx.fillStyle = pattern;
-              ctx.fillRect(0, 0, 320, 320);
-
-              ctx.strokeStyle = pattern;
-              ctx.lineWidth = 32;
-              ctx.strokeRect(400, 32 / 2, 320 - 32, 320 - 32);
-            };
+            ctx.beginPath();
+            ctx.arc(500, 300, 50, 0, 360 * (Math.PI / 180));
+            ctx.arc(500, 300, 100, 0, 360 * (Math.PI / 180));
+            ctx.fill('evenodd');
 
             {
               // 网格背景
               ctx.restore();
+              ctx.save();
               ctx.lineWidth = 0.2;
               ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 
