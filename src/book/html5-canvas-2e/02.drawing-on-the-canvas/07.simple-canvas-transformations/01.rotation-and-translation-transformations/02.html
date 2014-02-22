@@ -12,26 +12,21 @@
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            var ctx = (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width * dpr;
-              canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext('2d');
-              ctx.scale(dpr, dpr);
-              return ctx;
-            })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
            *
-           * translate 是一种 transformation, 因此 translate 属于 state,
+           * translate() 是一种 transformation, 因此 translate() 属于 state,
            * 用来平移坐标原点.
            *
            * @param {CanvasRenderingContext2D} ctx
@@ -53,25 +48,25 @@
             ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
             ctx.fillRect(700, 100, 100, 100);
 
-            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.translate(150, 150);
             ctx.rotate((Math.PI / 180) * 45);
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(-50, -50, 100, 100);
 
-            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.translate(350, 150);
             ctx.rotate((Math.PI / 180) * 75);
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(-50, -50, 100, 100);
 
-            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.translate(550, 150);
             ctx.rotate((Math.PI / 180) * 90);
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(-50, -50, 100, 100);
 
-            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.translate(750, 150);
             ctx.rotate((Math.PI / 180) * 120);
             ctx.fillStyle = '#ff0000';
