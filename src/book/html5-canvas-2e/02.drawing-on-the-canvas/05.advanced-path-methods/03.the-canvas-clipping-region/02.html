@@ -9,30 +9,20 @@
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.5. Advanced Path Methods
-       *     2.5.3. The Canvas Clipping Region
-       *         context.clip()
-       */
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            var ctx = (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width * dpr;
-              canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext('2d');
-              ctx.scale(dpr, dpr);
-              return ctx;
-            })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
            * 除了可以使用 rect() 方法将裁剪区域设置为一个矩形之外,
@@ -113,7 +103,7 @@
               ctx.beginPath();
               ctx.strokeStyle = '#ff0000';
               ctx.lineWidth = 2;
-              ctx.arc(500, 450, 105, 0 * (Math.PI / 180), 360 * (Math.PI / 180));
+              ctx.arc(500, 450, 105, 0, 360 * (Math.PI / 180));
               ctx.stroke();
 
               ctx.restore();
@@ -122,7 +112,7 @@
               ctx.beginPath();
               ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
               ctx.lineWidth = 2;
-              ctx.arc(500, 450, 105, 0 * (Math.PI / 180), 360 * (Math.PI / 180));
+              ctx.arc(500, 450, 105, 0, 360 * (Math.PI / 180));
               ctx.stroke();
             }
           }

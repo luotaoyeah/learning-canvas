@@ -9,36 +9,26 @@
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.5. Advanced Path Methods
-       *     2.5.3. The Canvas Clipping Region
-       *         context.clip()
-       */
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            var ctx = (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width * dpr;
-              canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext('2d');
-              ctx.scale(dpr, dpr);
-              return ctx;
-            })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
-           * clip 属于 state,
+           * clip() 属于 state,
            * 调用 clip() 方法之后, 可视区域会被限制在裁剪区域,
-           * 为了将可视区域恢复到全部画布, 需要在裁剪之前使用 save() 方法, 将当前状态保存到状态栈中,
-           * 然后在裁剪之后使用 restore() 方法, 将状态恢复.
+           * 为了将可视区域恢复到全部画布, 可以在裁剪之前使用 save() 方法, 将当前状态保存到状态栈中,
+           * 然后在裁剪之后使用 restore() 方法, 恢复状态.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width

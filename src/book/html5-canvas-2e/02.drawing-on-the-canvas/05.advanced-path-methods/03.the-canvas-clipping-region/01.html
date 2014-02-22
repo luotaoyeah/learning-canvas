@@ -9,36 +9,25 @@
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.5. Advanced Path Methods
-       *     2.5.3. The Canvas Clipping Region
-       *         context.clip()
-       */
       window.addEventListener(
         'load',
         function () {
+          var dpr = window.devicePixelRatio || 1;
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            var ctx = (function (canvas) {
-              var dpr = window.devicePixelRatio || 1;
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width * dpr;
-              canvas.height = rect.height * dpr;
-              var ctx = canvas.getContext('2d');
-              ctx.scale(dpr, dpr);
-              return ctx;
-            })(canvas);
-            var width = canvas.width / (window.devicePixelRatio || 1);
-            var height = canvas.height / (window.devicePixelRatio || 1);
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          var width = canvas.width / dpr;
+          var height = canvas.height / dpr;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
-           * context.clip() 用于裁剪画布的可视区域,
-           * 在裁剪之前, 需要先设置想要裁剪的范围,
-           * 通常使用 rect() 方法, 将可视区域裁剪到指定的矩形范围之内,
-           * 经过裁剪之后所有的绘制, 只有在这个可视区域内的部分才可见, 其余部分不会显示.
+           * context.clip() 用于裁剪画布, 裁剪的范围由某个 path 决定,
+           * 可以使用 rect() 等方法, 将可视区域裁剪到指定的矩形范围之内,
+           * 经过裁剪之后所有的绘制, 只有在这个可视区域内的部分才可见, 其余部分不会渲染.
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
@@ -80,7 +69,7 @@
               ctx.strokeStyle = '#ff0000';
               ctx.lineWidth = 2;
               ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.arc(100, 100, 100, 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
             }
 
@@ -98,7 +87,7 @@
               ctx.strokeStyle = '#ff00ff';
               ctx.lineWidth = 2;
               ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.arc(100, 100, 100, 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
 
               ctx.restore();
@@ -107,7 +96,7 @@
               ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
               ctx.lineWidth = 2;
               ctx.beginPath();
-              ctx.arc(100, 100, 100, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+              ctx.arc(100, 100, 100, 0, (Math.PI / 180) * 360, false);
               ctx.stroke();
             }
 
@@ -115,7 +104,7 @@
             ctx.strokeStyle = '#0000ff';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(100, 100, 90, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+            ctx.arc(100, 100, 90, 0, (Math.PI / 180) * 360, false);
             ctx.stroke();
           }
         },
