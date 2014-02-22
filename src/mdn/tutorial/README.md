@@ -13,3 +13,6 @@
     - [A createLinearGradient example](applying-styles-and-colors/gradients/a-create-linear-gradient-example.html)
     - [A createRadialGradient example](applying-styles-and-colors/gradients/a-create-radial-gradient-example.html)
   - [Canvas fill rules](applying-styles-and-colors/canvas-fill-rules/canvas-fill-rules.html)
+- [Transformations](transformations)
+  - [Saving and restoring state](transformations/saving-and-restoring-state)
+    - [A save and restore canvas state example](transformations/saving-and-restoring-state/a-save-and-restore-canvas-state-example.html)

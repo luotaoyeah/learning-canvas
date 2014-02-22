@@ -9,56 +9,55 @@
       <canvas id="canvas01" style="width: 1000px; height: 600px"></canvas>
     </div>
     <script>
-      /*
-       * 2.12. Checking to See Whether a Point Is in the Current Path
-       *     context.isPointInPath()
-       */
       window.addEventListener(
         'load',
         function () {
           var canvas = document.getElementById('canvas01');
-          if (canvas && canvas.getContext) {
-            /*
-             * 为了解决坐标偏移问题，将像素比设为1
-             */
-            var ctx = (function (canvas) {
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width;
-              canvas.height = rect.height;
-              var ctx = canvas.getContext('2d');
-              return ctx;
-            })(canvas);
-            var width = canvas.width;
-            var height = canvas.height;
+          /*
+           * 为了解决坐标偏移问题，将像素比设为1
+           */
+          var ctx = (function (canvas) {
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            var ctx = canvas.getContext('2d');
+            return ctx;
+          })(canvas);
+          var width = canvas.width;
+          var height = canvas.height;
 
-            drawScreen(ctx, width, height);
-          }
+          drawScreen(ctx, width, height);
 
           /**
-           * context.isPointInPath() 方法,
-           * 判断某个点是否属于某个路径（path）.
+           * context.isPointInPath() 判断某个点是否属于某个路径(path).
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function drawScreen(ctx, width, height) {
-            // 对于非闭合的路径, 需要判断点是否在路径上
             ctx.strokeStyle = '#ff0000';
             ctx.lineWidth = 2;
+
+            // 对于非闭合的路径, 在调用 isPointInPath() 时会自动先调用 closePath()
             ctx.beginPath();
             ctx.moveTo(50, 50);
             ctx.lineTo(100, 50);
             ctx.lineTo(100, 100);
             ctx.stroke();
-            console.log(ctx.isPointInPath(50, 50)); // true
-            console.log(ctx.isPointInPath(50, 100)); // fale
+            console.assert(ctx.isPointInPath(50, 50) === true);
+            console.assert(ctx.isPointInPath(75, 75) === true);
+            console.assert(ctx.isPointInPath(50, 100) === false);
 
-            // 对于闭合的路径, 需要判断点是否在路径形成的图像(shape)的范围之内
+            // 判断点是否在路径形成的图形(shape)的范围之内
             ctx.beginPath();
             ctx.rect(200, 200, 100, 100);
+            ctx.lineTo(100, 200);
             ctx.stroke();
-            console.log(ctx.isPointInPath(250, 250)); // true
+            console.assert(ctx.isPointInPath(100, 200) === true);
+            console.assert(ctx.isPointInPath(150, 200) === false);
+            console.assert(ctx.isPointInPath(200, 200) === true);
+            console.assert(ctx.isPointInPath(250, 250) === true);
 
             {
               // 网格背景

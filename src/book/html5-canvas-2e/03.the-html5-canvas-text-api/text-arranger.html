@@ -303,16 +303,16 @@
             ctx.clearRect(0, 0, width, height);
 
             ctx.font = fontStyle + ' ' + fontVariant + ' ' + fontWeight + ' ' + fontSize + 'px ' + fontFamily;
-            // 文字水平对齐方式, 相对于文本的 x 坐标对齐
+            // 文字的水平对齐方式, 相对于文本的 x 坐标点对齐
             ctx.textAlign = textAlign;
-            // 文字垂直对齐方式, 相对于文本的 y 坐标对齐
+            // 文字的垂直对齐方式, 相对于文本的 y 坐标点对齐
             ctx.textBaseline = textBaseline;
             ctx.shadowColor = shadowColor;
             ctx.shadowBlur = shadowBlur;
             ctx.shadowOffsetX = shadowOffsetX;
             ctx.shadowOffsetY = shadowOffsetY;
 
-            // measureText() 方法, 根据当前 context 的状态, 测量给定文本的尺寸信息.
+            // measureText() 方法, 根据当前 context 的状态, 测量指定文本的尺寸信息.
             var metrics = ctx.measureText(message);
             var textWidth = metrics.width;
             var xPosition = width / 2;

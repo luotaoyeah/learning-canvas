@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>drawing-a-triangle</title>
+    <title>a-save-and-restore-canvas-state-example</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -25,21 +25,42 @@
           draw(ctx, width, height);
 
           /**
-           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#drawing_a_triangle
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Transformations#a_save_and_restore_canvas_state_example
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
           function draw(ctx, width, height) {
-            ctx.beginPath();
-            ctx.moveTo(50, 200);
-            ctx.lineTo(150, 300);
-            ctx.lineTo(150, 100);
-            /*
-             * 对于非闭合的路径, 在调用 fill() 时会自动先调用 closePath()
-             */
-            ctx.fill();
+            ctx.restore();
+            ctx.save();
+
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(50, 50, 50, 50);
+            ctx.save();
+
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(100, 50, 50, 50);
+            ctx.save();
+
+            ctx.fillStyle = '#0000ff';
+            ctx.fillRect(150, 50, 50, 50);
+            ctx.save();
+
+            ctx.restore();
+            ctx.fillRect(200, 50, 50, 50);
+
+            ctx.restore();
+            ctx.fillRect(250, 50, 50, 50);
+
+            ctx.restore();
+            ctx.fillRect(300, 50, 50, 50);
+
+            ctx.restore();
+            ctx.fillRect(350, 50, 50, 50);
+
+            ctx.restore();
+            ctx.fillRect(400, 50, 50, 50);
 
             {
               // 网格背景

@@ -1,3 +1,8 @@
 [HTML5 Canvas, 2nd Edition](http://shop.oreilly.com/product/0636920026266.do)
 
-- [2.9. Filling Shapes with Patterns]()
+- [02.drawing-on-the-canvas](02.drawing-on-the-canvas)
+  - [03.the-canvas-state](02.drawing-on-the-canvas/03.the-canvas-state/01.html)
+  - [12.checking-to-see-whether-a-point-is-in-the-current-path](02.drawing-on-the-canvas/12.checking-to-see-whether-a-point-is-in-the-current-path/01.html)
+- [04-images-on-the-canvas](04-images-on-the-canvas)
+  - [02.image-basics](04-images-on-the-canvas/02.image-basics)
+    - [02.displaying-an-image-on-the-canvas-with-draw-image](04-images-on-the-canvas/02.image-basics/02.displaying-an-image-on-the-canvas-with-draw-image/01.html)
