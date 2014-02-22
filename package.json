@@ -1,8 +1,11 @@
 {
   "name": "@luotao/learning-canvas",
   "version": "0.0.1",
+  "dependencies": {
+    "@thymine/xunee": "0.4.3"
+  },
   "devDependencies": {
-    "prettier": "^2.4.1"
+    "prettier": "2.4.1"
   },
   "prettier": {
     "printWidth": 160,
