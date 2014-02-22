@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>02.07.01</title>
+    <title>example-for-transform-and-set-transform</title>
   </head>
   <body>
     <div style="text-align: center">
@@ -22,44 +22,51 @@
           var width = canvas.width / dpr;
           var height = canvas.height / dpr;
 
-          drawScreen(ctx, width, height);
+          var scaleX = 1;
+          var isZoomOut = false;
+
+          draw(ctx, width, height);
 
           /**
-           * ctx.transform()
-           *    直接在当前状态下进行形变
-           *
-           * ctx.resetTransform()
-           *    将 transformation 重置为 identity matrix
-           *
-           * ctx.setTransformation()
-           *    先将 transformation 重置为 identity matrix, 再按参数进行形变
+           * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Transformations#example_for_transform_and_settransform
            *
            * @param {CanvasRenderingContext2D} ctx
            * @param width
            * @param height
            */
-          function drawScreen(ctx, width, height) {
-            ctx.setTransform(dpr, 0, 0, dpr, 100 * dpr, 100 * dpr);
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(0, 0, 50, 0, 360 * (Math.PI / 180));
-            ctx.stroke();
+          function draw(ctx, width, height) {
+            ctx.restore();
+            ctx.save();
 
-            ctx.setTransform(dpr, 0, 0, dpr, 300 * dpr, 100 * dpr);
-            ctx.strokeStyle = '#ff0000';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(0, 0, 50, 0, 360 * (Math.PI / 180));
-            ctx.stroke();
+            window.requestAnimationFrame(draw.bind(null, ctx, width, height));
 
-            // setTransform() = resetTransform() + transform()
+            ctx.clearRect(0, 0, width, height);
+
+            if (isZoomOut) {
+              scaleX -= 0.02;
+              if (scaleX <= -1) {
+                scaleX = -1;
+                isZoomOut = false;
+              }
+            } else {
+              scaleX += 0.02;
+              if (scaleX >= 1) {
+                scaleX = 1;
+                isZoomOut = true;
+              }
+            }
+
             ctx.resetTransform();
-            ctx.transform(dpr, 0, 0, dpr, 0, 0);
+            ctx.transform(scaleX * dpr, 0, 0, dpr, 0, 0);
+            ctx.font = '48px Monaco';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('HTML CANVAS', 500 / scaleX, 300);
 
             {
               // 网格背景
               ctx.restore();
+              ctx.save();
               ctx.lineWidth = 0.2;
               ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 

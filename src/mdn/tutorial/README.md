@@ -18,3 +18,5 @@
     - [A save and restore canvas state example](transformations/saving-and-restoring-state/a-save-and-restore-canvas-state-example.html)
   - [Scaling](transformations/scaling)
     - [A scale example](transformations/scaling/a-scale-example.html)
+  - [Transforms](transformations/transforms)
+    - [Example for transform and setTransform](transformations/transforms/example-for-transform-and-set-transform.html)
