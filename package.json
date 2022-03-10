@@ -1,17 +1,18 @@
 {
-  "name": "@luotao/learning-canvas",
-  "version": "0.0.1",
-  "dependencies": {
-    "@thymine/xunee": "0.4.3"
-  },
-  "devDependencies": {
-    "prettier": "2.4.1"
-  },
-  "prettier": {
-    "printWidth": 160,
-    "singleQuote": true,
-    "semi": true,
-    "endOfLine": "auto",
-    "trailingComma": "all"
-  }
+    "name": "@luotao/learning-canvas",
+    "version": "0.0.1",
+    "dependencies": {
+        "@thymine/xunee": "0.4.6"
+    },
+    "devDependencies": {
+        "prettier": "2.6.2"
+    },
+    "prettier": {
+        "printWidth": 160,
+        "singleQuote": true,
+        "semi": true,
+        "tabWidth": 4,
+        "endOfLine": "auto",
+        "trailingComma": "all"
+    }
 }
