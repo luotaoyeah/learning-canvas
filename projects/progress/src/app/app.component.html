@@ -2,8 +2,8 @@
     <app-progress-circle [value]="value"></app-progress-circle>
 
     <div class="progress-bars">
-        <app-progress-bar [title]="'点检'" [total]="26" [value]="26"></app-progress-bar>
-        <app-progress-bar [title]="'保养'" [total]="20" [value]="10"></app-progress-bar>
-        <app-progress-bar [title]="'维修'" [total]="2" [value]="1"></app-progress-bar>
+        <app-progress-bar [leftText]="'点检'" [total]="26" [value]="26"></app-progress-bar>
+        <app-progress-bar [leftText]="'保养'" [rightText]="10" [total]="20" [value]="10"></app-progress-bar>
+        <app-progress-bar [leftText]="'维修'" [total]="2" [value]="1"></app-progress-bar>
     </div>
 </div>

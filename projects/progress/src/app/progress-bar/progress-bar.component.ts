@@ -10,11 +10,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProgressBarComponent implements OnInit {
     //region @Input()
-    /** 标题. */
+    /** 左侧标题. */
     @Input()
-    public title: string = '';
+    public leftText: string = '';
 
-    /** 数值. */
+    /**
+     * 右侧数量. 默认为 '当前数量 / 总数'
+     */
+    @Input()
+    public rightText: string | number = '';
+
+    /** 当前数量. */
     @Input()
     public value: number = 0;
 
@@ -79,8 +85,8 @@ export class ProgressBarComponent implements OnInit {
         this.renderValueBar();
         this.renderDot();
 
-        this.renderTextTitle();
-        this.renderTextValue();
+        this.renderLeftText();
+        this.renderRightText();
         if (this.value === this.total) {
             this.renderText100();
         }
@@ -89,7 +95,7 @@ export class ProgressBarComponent implements OnInit {
     }
 
     /**
-     * 渲染数值位置的圆点.
+     * 渲染当前数值位置的圆点.
      */
     private renderDot(): void {
         this.ctx.restore();
@@ -139,22 +145,22 @@ export class ProgressBarComponent implements OnInit {
     }
 
     /**
-     * 渲染文本: 标题.
+     * 渲染文本: 左侧标题.
      */
-    private renderTextTitle() {
+    private renderLeftText() {
         this.ctx.fillStyle = 'rgba(255, 255, 255, 0.87)';
         this.ctx.font = `normal ${this.fontSize}px 'Alibaba-PuHuiTi', SimSun, sans-serif`;
         this.ctx.textBaseline = 'bottom';
         this.ctx.textAlign = 'left';
 
         const y = this.height - this.barHeight - this.barMarginBottom - 8;
-        this.ctx.fillText(`${this.title}`, 0, y);
+        this.ctx.fillText(`${this.leftText}`, 0, y);
     }
 
     /**
-     * 渲染文本: 数量.
+     * 渲染文本: 右侧数量.
      */
-    private renderTextValue() {
+    private renderRightText() {
         this.ctx.restore();
         this.ctx.save();
 
@@ -164,7 +170,7 @@ export class ProgressBarComponent implements OnInit {
         this.ctx.textAlign = 'right';
 
         const y = this.height - this.barHeight - this.barMarginBottom - 8;
-        this.ctx.fillText(`${this.value} / ${this.total}`, this.width - this.barMarginRight, y);
+        this.ctx.fillText(String(this.rightText) || `${this.value} / ${this.total}`, this.width - this.barMarginRight, y);
     }
 
     /**
@@ -179,8 +185,9 @@ export class ProgressBarComponent implements OnInit {
         this.ctx.textBaseline = 'middle';
         this.ctx.textAlign = 'center';
 
+        const x = (this.width - this.barMarginRight) / 2;
         const y = this.height - this.barHeight / 2 - this.barMarginBottom + 1;
-        this.ctx.fillText(`100%`, (this.width - this.barMarginRight) / 2, y);
+        this.ctx.fillText(`100%`, x, y);
     }
 
     /**
@@ -190,14 +197,15 @@ export class ProgressBarComponent implements OnInit {
         this.ctx.restore();
         this.ctx.save();
 
+        const x = this.width - this.barMarginRight;
+        const y = this.height - this.barHeight / 2 - this.barMarginBottom;
+
         this.ctx.strokeStyle = 'rgba(112, 112, 112, 0.23)';
         this.ctx.lineWidth = this.barHeight;
 
-        const y = this.height - this.barHeight / 2 - this.barMarginBottom;
-
         this.ctx.beginPath();
         this.ctx.moveTo(0, y);
-        this.ctx.lineTo(this.width - this.barMarginRight, y);
+        this.ctx.lineTo(x, y);
         this.ctx.closePath();
         this.ctx.stroke();
 
@@ -212,7 +220,8 @@ export class ProgressBarComponent implements OnInit {
         this.ctx.restore();
         this.ctx.save();
 
-        const x = this.width * (this.value / this.total) - this.barMarginRight;
+        const x = (this.width - this.barMarginRight) * (this.value / this.total);
+        const y = this.height - this.barHeight / 2 - this.barMarginBottom;
 
         const gradient = this.ctx.createLinearGradient(0, 0, x, 0);
         gradient.addColorStop(0, 'rgba(27, 126, 242, 0)');
@@ -220,8 +229,6 @@ export class ProgressBarComponent implements OnInit {
 
         this.ctx.strokeStyle = gradient;
         this.ctx.lineWidth = this.barHeight;
-
-        const y = this.height - this.barHeight / 2 - this.barMarginBottom;
 
         this.ctx.beginPath();
         this.ctx.moveTo(0, y);
