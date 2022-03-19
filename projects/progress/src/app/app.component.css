@@ -24,4 +24,5 @@
 
 .container .progress-bars {
     flex: 1;
+    padding-left: 12px;
 }

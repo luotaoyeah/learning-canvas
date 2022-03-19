@@ -15,13 +15,14 @@ export class ProgressCircleComponent implements OnInit {
     public value: number = 0;
     //endregion
 
+    public eid: string = `__canvas__${Math.random().toString().replace('.', '')}`;
+
     private dpr: number = window.devicePixelRatio || 1;
     private ctx!: CanvasRenderingContext2D;
     private canvas!: HTMLCanvasElement;
 
     /** 容器宽度. */
     private width: number = 0;
-
     /** 容器高度. */
     private height: number = 0;
 
@@ -63,11 +64,13 @@ export class ProgressCircleComponent implements OnInit {
     public constructor() {}
 
     public ngOnInit(): void {
-        this.init();
+        setTimeout(() => {
+            this.init();
+        });
     }
 
     private init() {
-        this.canvas = document.querySelector<HTMLCanvasElement>('#canvas888888')!;
+        this.canvas = document.querySelector<HTMLCanvasElement>(`#${this.eid}`)!;
         this.ctx = this.canvas.getContext('2d')!;
 
         this.render();
