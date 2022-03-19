@@ -4,6 +4,9 @@ import { Component, Input, OnInit } from '@angular/core';
     selector: 'app-progress-circle',
     templateUrl: './progress-circle.component.html',
     styleUrls: ['./progress-circle.component.css'],
+    host: {
+        '[class.app-progress-circle]': `true`,
+    },
 })
 export class ProgressCircleComponent implements OnInit {
     //region @Input()
@@ -30,23 +33,32 @@ export class ProgressCircleComponent implements OnInit {
     private outerEllipseAnimate: boolean = true;
     /** 外层椭圆: 动画速度. */
     private outerEllipseAnimateSpeed: number = 0.025;
+    /** 外层椭圆: 线的粗细. */
+    private outerEllipseLineWidth: number = 2;
 
     /** 内层椭圆: 起始角度. */
     private innerEllipseStartAngle: number = 135 * (Math.PI / 180);
     /** 内层椭圆: 外边距. */
-    private innerEllipseMargin: number = 48;
+    private innerEllipseMargin: number = 28;
     /** 内层椭圆: 是否渲染动画. */
     private innerEllipseAnimate: boolean = true;
     /** 内层椭圆: 动画速度. */
     private innerEllipseAnimateSpeed: number = 0.015;
+    /** 内层椭圆: 线的粗细. */
+    private innerEllipseLineWidth: number = 2;
 
     /** 进度椭圆: 外边距. */
-    private progressEllipseMargin: number = 96;
+    private progressEllipseMargin: number = 44;
     /** 进度椭圆: 线条宽度. */
-    private progressEllipseWidth: number = 40;
+    private progressEllipseWidth: number = 0;
+    /** 进度椭圆: 线条宽度: 默认. */
+    private progressEllipseWidthDefault: number = 40;
+    private progressEllipseLineDash: Array<number> = [20, 4];
 
     /** 数值文本的字体大小. */
-    private fontSize: number = 64;
+    private fontSize: number = 0;
+    /** 数值文本的字体大小: 默认. */
+    private fontSizeDefault: number = 72;
 
     public constructor() {}
 
@@ -71,8 +83,8 @@ export class ProgressCircleComponent implements OnInit {
         this.width = rect.width;
         this.height = rect.height;
 
-        this.fontSize = (this.width * this.dpr * 64) / 900;
-        this.progressEllipseWidth = (this.width * this.dpr * 40) / 900;
+        this.fontSize = (this.width * this.dpr * this.fontSizeDefault) / 900;
+        this.progressEllipseWidth = (this.width * this.dpr * this.progressEllipseWidthDefault) / 900;
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
@@ -114,7 +126,7 @@ export class ProgressCircleComponent implements OnInit {
         gradient.addColorStop(1, 'rgba(27,126,242,0)');
         this.ctx.strokeStyle = gradient;
 
-        this.ctx.lineWidth = 4;
+        this.ctx.lineWidth = this.innerEllipseLineWidth;
         this.ctx.lineCap = 'round';
 
         this.ctx.beginPath();
@@ -153,7 +165,7 @@ export class ProgressCircleComponent implements OnInit {
         gradient.addColorStop(1, 'rgba(27,126,242,0)');
         this.ctx.strokeStyle = gradient;
 
-        this.ctx.lineWidth = 4;
+        this.ctx.lineWidth = this.outerEllipseLineWidth;
         this.ctx.lineCap = 'round';
 
         this.ctx.beginPath();
@@ -174,7 +186,7 @@ export class ProgressCircleComponent implements OnInit {
         this.ctx.strokeStyle = '#002838';
         this.ctx.lineWidth = this.progressEllipseWidth + 1;
         this.ctx.lineDashOffset = 33;
-        this.ctx.setLineDash([30, 10]);
+        this.ctx.setLineDash(this.progressEllipseLineDash);
 
         this.ctx.translate(this.width / 2, this.height / 2);
         this.ctx.scale(1, this.height / this.width);
@@ -197,7 +209,7 @@ export class ProgressCircleComponent implements OnInit {
         this.ctx.strokeStyle = 'rgb(27,126,242)';
         this.ctx.lineWidth = this.progressEllipseWidth;
         this.ctx.lineDashOffset = 33;
-        this.ctx.setLineDash([30, 10]);
+        this.ctx.setLineDash(this.progressEllipseLineDash);
 
         this.ctx.translate(this.width / 2, this.height / 2);
         this.ctx.scale(1, this.height / this.width);
