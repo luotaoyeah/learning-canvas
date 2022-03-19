@@ -1,18 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
-import { ProgressComponent } from './progress/progress.component';
+import { ProgressCircleComponent } from './progress-circle/progress-circle.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProgressComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, ProgressCircleComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

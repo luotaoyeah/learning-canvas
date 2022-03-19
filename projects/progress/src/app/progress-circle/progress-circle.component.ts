@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-progress',
-    templateUrl: './progress.component.html',
-    styleUrls: ['./progress.component.css'],
+    selector: 'app-progress-circle',
+    templateUrl: './progress-circle.component.html',
+    styleUrls: ['./progress-circle.component.css'],
 })
-export class ProgressComponent implements OnInit {
+export class ProgressCircleComponent implements OnInit {
     //region @Input()
     /** 数值. */
     @Input()
@@ -34,16 +34,19 @@ export class ProgressComponent implements OnInit {
     /** 内层椭圆: 起始角度. */
     private innerEllipseStartAngle: number = 135 * (Math.PI / 180);
     /** 内层椭圆: 外边距. */
-    private innerEllipseMargin: number = 32;
+    private innerEllipseMargin: number = 48;
     /** 内层椭圆: 是否渲染动画. */
     private innerEllipseAnimate: boolean = true;
     /** 内层椭圆: 动画速度. */
     private innerEllipseAnimateSpeed: number = 0.015;
 
     /** 进度椭圆: 外边距. */
-    private progressEllipseMargin: number = 64;
+    private progressEllipseMargin: number = 96;
     /** 进度椭圆: 线条宽度. */
     private progressEllipseWidth: number = 40;
+
+    /** 数值文本的字体大小. */
+    private fontSize: number = 64;
 
     public constructor() {}
 
@@ -68,6 +71,9 @@ export class ProgressComponent implements OnInit {
         this.width = rect.width;
         this.height = rect.height;
 
+        this.fontSize = (this.width * this.dpr * 64) / 900;
+        this.progressEllipseWidth = (this.width * this.dpr * 40) / 900;
+
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.renderOuterEllipse();
@@ -75,7 +81,8 @@ export class ProgressComponent implements OnInit {
         this.renderProgressBackgroundEllipse();
         this.renderProgressEllipse();
 
-        this.renderLabel();
+        this.renderTextValue();
+        this.renderTextPercent();
 
         window.requestAnimationFrame(this.render.bind(this, this.ctx));
     }
@@ -116,17 +123,6 @@ export class ProgressComponent implements OnInit {
 
         this.ctx.restore();
         this.ctx.save();
-    }
-
-    /**
-     * 渲染文本.
-     */
-    private renderLabel() {
-        this.ctx.fillStyle = '#fff';
-        this.ctx.font = "64px 'Alibaba-PuHuiTi', SimSun, sans-serif";
-        this.ctx.textBaseline = 'bottom';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText(`${this.value}%`, this.width / 2, this.height / 2);
     }
 
     /**
@@ -219,5 +215,36 @@ export class ProgressComponent implements OnInit {
 
         this.ctx.restore();
         this.ctx.save();
+    }
+
+    /**
+     * 渲染文本: 百分号.
+     */
+    private renderTextPercent() {
+        this.ctx.restore();
+        this.ctx.save();
+
+        this.ctx.font = `${this.fontSize}px 'Alibaba-PuHuiTi', SimSun, sans-serif`;
+        const textMetrics = this.ctx.measureText(String(this.value));
+
+        this.ctx.restore();
+        this.ctx.save();
+
+        this.ctx.fillStyle = '#fff';
+        this.ctx.font = `${this.fontSize * 0.75}px 'Alibaba-PuHuiTi', SimSun, sans-serif`;
+        this.ctx.textBaseline = 'bottom';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(`%`, this.width / 2 + textMetrics.width / 2 + 4, this.height / 2);
+    }
+
+    /**
+     * 渲染文本: 数值.
+     */
+    private renderTextValue() {
+        this.ctx.fillStyle = '#fff';
+        this.ctx.font = `bold ${this.fontSize}px 'Alibaba-PuHuiTi', SimSun, sans-serif`;
+        this.ctx.textBaseline = 'bottom';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.value}`, this.width / 2, this.height / 2);
     }
 }
