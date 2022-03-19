@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-gauge',
-    templateUrl: './gauge.component.html',
-    styleUrls: ['./gauge.component.css'],
+    selector: 'app-progress',
+    templateUrl: './progress.component.html',
+    styleUrls: ['./progress.component.css'],
 })
-export class GaugeComponent implements OnInit {
+export class ProgressComponent implements OnInit {
     //region @Input()
     /** 数值. */
     @Input()
@@ -28,16 +28,22 @@ export class GaugeComponent implements OnInit {
     private outerEllipseMargin: number = 16;
     /** 外层椭圆: 是否渲染动画. */
     private outerEllipseAnimate: boolean = true;
+    /** 外层椭圆: 动画速度. */
+    private outerEllipseAnimateSpeed: number = 0.025;
 
     /** 内层椭圆: 起始角度. */
     private innerEllipseStartAngle: number = 135 * (Math.PI / 180);
     /** 内层椭圆: 外边距. */
     private innerEllipseMargin: number = 32;
-    /** 外层椭圆: 是否渲染动画. */
+    /** 内层椭圆: 是否渲染动画. */
     private innerEllipseAnimate: boolean = true;
+    /** 内层椭圆: 动画速度. */
+    private innerEllipseAnimateSpeed: number = 0.015;
 
     /** 进度椭圆: 外边距. */
     private progressEllipseMargin: number = 64;
+    /** 进度椭圆: 线条宽度. */
+    private progressEllipseWidth: number = 40;
 
     public constructor() {}
 
@@ -66,6 +72,7 @@ export class GaugeComponent implements OnInit {
 
         this.renderOuterEllipse();
         this.renderInnerEllipse();
+        this.renderProgressBackgroundEllipse();
         this.renderProgressEllipse();
 
         this.renderLabel();
@@ -85,7 +92,7 @@ export class GaugeComponent implements OnInit {
                 this.innerEllipseStartAngle = 0;
             }
 
-            this.innerEllipseStartAngle -= 0.015;
+            this.innerEllipseStartAngle -= this.innerEllipseAnimateSpeed;
         }
 
         this.ctx.translate(this.width / 2, this.height / 2);
@@ -119,7 +126,7 @@ export class GaugeComponent implements OnInit {
         this.ctx.font = "64px 'Alibaba-PuHuiTi', SimSun, sans-serif";
         this.ctx.textBaseline = 'bottom';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(`${this.value} %`, this.width / 2, this.height / 2);
+        this.ctx.fillText(`${this.value}%`, this.width / 2, this.height / 2);
     }
 
     /**
@@ -134,7 +141,7 @@ export class GaugeComponent implements OnInit {
                 this.outerEllipseStartAngle = 0;
             }
 
-            this.outerEllipseStartAngle += 0.025;
+            this.outerEllipseStartAngle += this.outerEllipseAnimateSpeed;
         }
 
         this.ctx.translate(this.width / 2, this.height / 2);
@@ -162,6 +169,29 @@ export class GaugeComponent implements OnInit {
     }
 
     /**
+     * 渲染进度背景椭圆.
+     */
+    private renderProgressBackgroundEllipse(): void {
+        this.ctx.restore();
+        this.ctx.save();
+
+        this.ctx.strokeStyle = '#002838';
+        this.ctx.lineWidth = this.progressEllipseWidth + 1;
+        this.ctx.lineDashOffset = 33;
+        this.ctx.setLineDash([30, 10]);
+
+        this.ctx.translate(this.width / 2, this.height / 2);
+        this.ctx.scale(1, this.height / this.width);
+
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, Math.max(0, this.width / 2 - this.progressEllipseMargin - this.ctx.lineWidth / 2), 0, 360 * (Math.PI / 180), false);
+        this.ctx.stroke();
+
+        this.ctx.restore();
+        this.ctx.save();
+    }
+
+    /**
      * 渲染进度椭圆.
      */
     private renderProgressEllipse(): void {
@@ -169,15 +199,22 @@ export class GaugeComponent implements OnInit {
         this.ctx.save();
 
         this.ctx.strokeStyle = 'rgb(27,126,242)';
-        this.ctx.lineWidth = 36;
+        this.ctx.lineWidth = this.progressEllipseWidth;
         this.ctx.lineDashOffset = 33;
-        this.ctx.setLineDash([30, 3]);
+        this.ctx.setLineDash([30, 10]);
 
         this.ctx.translate(this.width / 2, this.height / 2);
         this.ctx.scale(1, this.height / this.width);
 
         this.ctx.beginPath();
-        this.ctx.arc(0, 0, Math.max(0, this.width / 2 - this.progressEllipseMargin - this.ctx.lineWidth / 2), 0, 360 * (Math.PI / 180), false);
+        this.ctx.arc(
+            0,
+            0,
+            Math.max(0, this.width / 2 - this.progressEllipseMargin - this.ctx.lineWidth / 2),
+            0,
+            (this.value / 100) * 360 * (Math.PI / 180),
+            false,
+        );
         this.ctx.stroke();
 
         this.ctx.restore();
